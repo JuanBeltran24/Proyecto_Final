@@ -51,37 +51,32 @@ if (dropdownToggle && dropdownMenu) {
 
 
 
+// Selecciona el contenedor del usuario y el menú desplegable
 const userDropdown = document.querySelector('.user-dropdown');
 const dropdownContent = document.querySelector('.dropdown-content');
-const manualToggle = document.querySelector('.manual-toggle');
-const manualContent = document.querySelector('.manual-content');
 
 // Variables para gestionar el tiempo de espera
 let timeout;
 
-// Mostrar el menú desplegable cuando el ratón pasa por encima
 userDropdown.addEventListener('mouseover', () => {
     clearTimeout(timeout);
     dropdownContent.style.display = 'block'; // Muestra el menú
 });
 
-// Mantener el menú desplegable visible mientras el ratón está sobre él
-dropdownContent.addEventListener('mouseover', () => {
-    clearTimeout(timeout);
-    dropdownContent.style.display = 'block'; // Mantiene el menú visible
+userDropdown.addEventListener('mouseout', () => {
+    timeout = setTimeout(() => {
+        dropdownContent.style.display = 'none'; // Oculta el menú después de un retraso
+    }, 300); // Tiempo de espera de 300ms (puedes ajustarlo)
 });
 
-// Ocultar el menú después de un retraso cuando el ratón sale
-userDropdown.addEventListener('mouseout', () => {
+dropdownContent.addEventListener('mouseover', () => {
+    clearTimeout(timeout);
+    dropdownContent.style.display = 'block'; // Mantiene el menú visible si el mouse está sobre él
+});
+
+dropdownContent.addEventListener('mouseout', () => {
     timeout = setTimeout(() => {
         dropdownContent.style.display = 'none'; // Oculta el menú después de un retraso
     }, 300); // Tiempo de espera de 300ms
 });
-
-manualToggle.addEventListener('mouseover', () => {
-    clearTimeout(timeout);
-    manualContent.style.display = 'block'; // Muestra el manual de usuario
-});
-
-manualToggle.add
 

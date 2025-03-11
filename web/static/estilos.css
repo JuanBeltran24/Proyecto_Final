@@ -10,7 +10,6 @@
 html {
     font-size: 62.5%;
     font-family: 'Poppins', sans-serif;
-    overflow-x: hidden; /* Evita el desbordamiento horizontal */
 }
 
 * {
@@ -714,12 +713,12 @@ html {
 
 .categories-slider {
     display: flex;
-    justify-content: center;
-    overflow-x: auto;
+    justify-content: center; /* Centra las categorías */
+    align-items: center; /* Alinea verticalmente (si es necesario) */
+    overflow-x: auto; /* Habilita el desplazamiento horizontal si hay muchas categorías */
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    padding: 1rem 0;
+    -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos táctiles */
+    padding: 1rem 0
 }
 
 .categories-slider::-webkit-scrollbar {
@@ -777,8 +776,9 @@ html {
     transition: all 0.3s ease;
 }
 
+/* Estilos generales existentes */
 .slider-controls {
-    display: flex;
+    display: none;
     justify-content: center;
     margin-top: 1rem;
 }
@@ -841,6 +841,10 @@ html {
         width: 35px;
         height: 35px;
     }
+
+    .slider-controls {
+        display: none; /* Oculta las flechas en pantallas grandes */
+    }
 }
 
 @media (max-width: 480px) {
@@ -851,7 +855,16 @@ html {
     .category-icon {
         font-size: 1.8rem;
     }
+
+    .slider-controls {
+        display: flex; /* Muestra las flechas en pantallas pequeñas */
+    }
+
+    .categories-slider {
+        justify-content: flex-start; /* En pantallas pequeñas, empieza desde la izquierda */
+    }
 }
+
 
 /* ********************************** */
 /*            TOP PRODUCTS            */
@@ -1298,291 +1311,20 @@ html {
 
 /******* MODAL *********/
 
-/* .modal {
+/* Fondo oscuro detrás del modal */
+#modalBackdrop {
     display: none;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    z-index: 1001;
-    width: 80%;
-    max-width: 900px;
-    text-align: center;
-}
-
-.modal-contenido {
-    color: #333;
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.cerrar {
-    font-size: 25px;
-    color: #ff5e62;
-    cursor: pointer;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-}
-
-.cerrar:hover {
-    color: #ff7b00;
-}
-
-#modal-pago {
-    width: 80%;
-    max-width: 900px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-#modal-pago.mostrar {
-    display: block;
-}
-
-.modal-contenido {
-    padding: 30px;
-    border-radius: 18px;
-    background: white;
-    color: #333;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-    display: flex;
-    gap: 20px;
-}
-
-.modal-body {
-    display: flex;
-    gap: 25px;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-#formulario-pago {
-    flex: 1;
-    background: #fff3e0;
-    padding: 25px;
-    border-radius: 12px;
-    text-align: left;
-    box-shadow: 0 0 15px rgba(255, 94, 98, 0.1);
-}
-
-#formulario-pago h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #ff5e62;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-    color: #555;
-}
-
-input {
+    top: 0;
+    left: 0;
     width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: white;
-    color: #333;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
 }
 
-input:focus {
-    border-color: #ff5e62;
-    box-shadow: 0 0 10px rgba(255, 94, 98, 0.2);
-}
-
-input::placeholder {
-    color: #999;
-}
-
-.btn-confirmar-pago {
-    width: 100%;
-    background: linear-gradient(90deg, #ff5e62, #ff9966);
-    color: white;
-    border: none;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.btn-confirmar-pago:hover {
-    background: linear-gradient(90deg, #ff9966, #ff5e62);
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 94, 98, 0.8);
-}
-
-#productos-pago {
-    flex: 1;
-    background: #fff3e0;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(255, 94, 98, 0.1);
-}
-
-#productos-pago h3 {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #ff5e62;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
-#productos-pago ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-#productos-pago ul li {
-    padding: 10px;
-    margin-bottom: 10px;
-    background: white;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#productos-pago ul li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-#total-pago {
-    text-align: center;
-    margin-top: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-#total-pago h3 {
-    font-size: 20px;
-    margin: 0;
-    color: #333;
-}
-
-#monto-total {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ff5e62;
-}
-
-#qr-container {
-    display: none;
-    text-align: center;
-    margin-top: 20px;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-#qr-imagen {
-    width: 200px;
-    height: 200px;
-    margin: 10px auto;
-    border-radius: 10px;
-    border: 3px solid rgba(255, 94, 98, 0.7);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#qr-imagen:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-}
-
-#qr-texto {
-    display: block !important;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 10px;
-    font-size: 18px;
-    color: #333;
-    background: linear-gradient(90deg, #ff5e62, #ff9966);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 5px rgba(255, 94, 98, 0.3);
-    animation: vibrar 0.8s infinite alternate ease-in-out;
-}
-
-@keyframes vibrar {
-    0% {
-        transform: translateX(0px);
-    }
-    100% {
-        transform: translateX(3px);
-    }
-}
-
-.opciones-pago {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.opciones-pago h2 {
-    font-size: 24px;
-    color: #ff5e62;
-    margin-bottom: 10px;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-}
-
-.opciones-pago button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: linear-gradient(90deg, #ff5e62, #ff9966);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.opciones-pago button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 94, 98, 0.8);
-} */
-
-
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translate(-50%, -55%); }
-    to { opacity: 1; transform: translate(-50%, -50%); }
-}
 
 .modal-contenido {
     color: #333;
@@ -1611,12 +1353,14 @@ input::placeholder {
 #modal-pago {
     width: 90%;
     max-width: 1000px;
-    position: fixed;
+    position: absolute; /* Cambiamos de fixed a absolute */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
     animation: fadeIn 0.4s ease-in-out;
+    cursor: move;
+    z-index: 1000; /* Mantenemos el z-index para que se vea encima */
 }
 
 #modal-pago.mostrar {
@@ -1632,6 +1376,9 @@ input::placeholder {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 30px;
+    user-select: none; /* Evita seleccionar texto durante el arrastre */
+    max-height: 100%; /* Evita que el modal sea más alto que la pantalla */
+    overflow-y: auto; /* Agrega desplazamiento si el contenido es muy grande */
 }
 
 /* Diseño en dos columnas */
@@ -1691,27 +1438,34 @@ input::placeholder {
 }
 
 /* Botón de confirmar pago */
-.btn-confirmar-pago {
+#confirmarPago {
     width: 100%;
     background: linear-gradient(90deg, #ff5e62, #ff7b00);
     color: white;
     border: none;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    font-size: 18px;
+    padding: 10px 20px; /* Reducir el padding */
+    margin-top: 20px; /* Reducir el margen superior */
+    border-radius: 6px; /* Reducir el radio del borde */
+    font-size: 10px; /* Reducir el tamaño de la fuente */
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-transform: uppercase;
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px; /* Reducir el espaciado entre letras */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añadir sombra para más profundidad */
 }
 
 .btn-confirmar-pago:hover {
-    background: linear-gradient(90deg, #ff7b00, #ff5e62);
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(255, 94, 98, 0.5);
+    transform: translateY(-2px); /* Efecto de levantar el botón al pasar el mouse */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Aumentar la sombra al pasar el mouse */
 }
+
+#confirmarPago:active {
+    transform: translateY(0); /* Efecto de presionar el botón */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Reducir la sombra al presionar */
+}
+
+
 
 /* Productos en el carrito (derecha) */
 #productos-pago {
@@ -1720,6 +1474,7 @@ input::placeholder {
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(255, 94, 98, 0.1);
+    
 }
 
 #productos-pago h3 {
@@ -1756,14 +1511,12 @@ input::placeholder {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Total de la compra */
-#total-pago {
-    text-align: center;
-    margin-top: 25px;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+#productos-pago {
+    flex: 1;
+    background: #fff8f0;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(255, 94, 98, 0.1);
 }
 
 #total-pago h3 {
@@ -1857,26 +1610,26 @@ input::placeholder {
     transform: scale(1.05);
     box-shadow: 0 5px 20px rgba(255, 94, 98, 0.5);
 }
-
 /* Media Queries para 768px */
 @media (max-width: 768px) {
-    .modal {
+    #modal-pago {
         width: 95%;
-        padding: 20px;
+        max-height: 95vh;
     }
 
     .modal-contenido {
-        flex-direction: column;
-        gap: 20px;
         padding: 20px;
     }
-
-    .modal-body {
+    
+    /* Cambiamos a diseño vertical solo para pantallas medianas */
+    .modal-contenido {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
 
     #formulario-pago, #productos-pago {
+        width: 100%;
         padding: 20px;
     }
 
@@ -1884,7 +1637,7 @@ input::placeholder {
         font-size: 22px;
     }
 
-    .btn-confirmar-pago {
+    #confirmarPago {
         font-size: 16px;
     }
 
@@ -1912,16 +1665,28 @@ input::placeholder {
 
 /* Media Queries para 468px */
 @media (max-width: 468px) {
-    .modal {
+    #modal-pago {
         width: 100%;
-        padding: 15px;
+        height: 100vh;
+        max-height: 100vh;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: none;
+        border-radius: 0;
+        position: fixed;
     }
-
+    
     .modal-contenido {
+        height: 100%;
+        border-radius: 0;
         padding: 15px;
+        gap: 15px;
+        overflow-y: auto;
     }
 
-    #formulario-pago, #productos-pago {
+    #formulario-pago, #productos-pago, .opciones-pago {
         padding: 15px;
     }
 
@@ -1929,7 +1694,7 @@ input::placeholder {
         font-size: 20px;
     }
 
-    .btn-confirmar-pago {
+    #confirmarPago {
         font-size: 14px;
     }
 
@@ -1953,7 +1718,31 @@ input::placeholder {
     .opciones-pago button {
         font-size: 14px;
     }
+    
+    .cerrar {
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+    }
 }
+
+/* Estilos para el spinner */
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #ff5e62;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 
 
 /* ********************************** */

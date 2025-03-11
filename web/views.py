@@ -219,6 +219,8 @@ def contactanos(request):
 
         # Mostrar un mensaje de éxito al usuario
         messages.success(request, 'Mensaje enviado correctamente')
+        return redirect("contactanos")  # Redirigir después de enviar
+
 
         # Renderizar la página con el mensaje de éxito
         return render(request, "contactanos.html", {"message_sent": True})

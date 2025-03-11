@@ -4,6 +4,8 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static 'estilos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
@@ -70,128 +72,143 @@
         </section>
     </main>
 
-        <!-- Categorias -->
-        <section class="container top-categories" id="Servicio">
-            <h1 class="heading-categories">Categorías</h1>
-            
-            <div class="categories-container">
-                <div class="categories-slider" id="categoriesSlider">
-                    <div class="category-item active" data-category="todos">
-                        <i class="fas fa-store category-icon"></i>
-                        <h5 class="category-title">Todos</h5>
-                    </div>
-                    <div class="category-item" data-category="roscas">
-                        <i class="fas fa-bread-slice category-icon"></i>
-                        <h5 class="category-title">Roscas</h5>
-                    </div>
-                    <div class="category-item" data-category="suspiros">
-                        <i class="fas fa-cookie-bite category-icon"></i>
-                        <h5 class="category-title">Suspiros</h5>
-                    </div>
-                    <div class="category-item" data-category="galletas">
-                        <i class="fas fa-cookie category-icon"></i>
-                        <h5 class="category-title">Galletas</h5>
-                    </div>
-                    <div class="category-item" data-category="bizcochos">
-                        <i class="fas fa-bread-slice category-icon"></i>
-                        <h5 class="category-title">Bizcochos</h5>
-                    </div>
-                </div>
-                
-                <div class="slider-controls">
-                    <div class="slider-arrow" id="prevBtn">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="slider-arrow" id="nextBtn">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
+    <!-- Categorías -->
+<section class="container top-categories" id="Servicio">
+    <h1 class="heading-categories">Categorías</h1>
+    <div class="categories-container">
+        <div class="categories-slider" id="categoriesSlider">
+            <div class="category-item active" data-category="todos">
+                <img src="{% static 'img/categorias/todo.png' %}" alt="Icono Todos" class="category-icon">
+                <h5 class="category-title">Todos</h5>
             </div>
-        </section>
-                
-                
-                <!-- carrito de compras -->
-                <section class="container-top-products">
-                    <h1 class="heading-1">Nuestros Productos</h1>
-                    <div class="container-options">
-                        <span class="active">Galería de fotos</span>
-                    </div>
-        
-                    {% load humanize %}
-                    <section class="contenedor" id="Galeria">
-                        <div class="contenedor-items">
-                            {% for producto in productos %}
-                            <div class="item" data-categoria="{{ producto.categoria|lower }}">
-                                <span class="titulo-item">{{ producto.nombre }}</span>
-                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-item">
-                                <span class="precio-item">${{ producto.precio|floatformat:0|intcomma }}</span>
-                                <button class="boton-item agregar-carrito">Agregar al Carrito</button>
-                            </div>
-                        {% empty %}
-                            <p>No hay productos disponibles en este momento.</p>
-                        {% endfor %}
-                        
-                        </div>
-                        <!-- Carrito de Compras -->
-                        <div class="carrito">
-                            <div class="header-carrito">
-                                <h2>Tu Carrito</h2>
-                            </div>
-                            <div class="carrito-items"></div>
-                            <div class="carrito-total">
-                                <div class="fila">
-                                    <strong>Tu Total</strong>
-                                    <span class="carrito-precio-total">$0</span>
-                                </div>
-                                <button class="btn-pagar" id="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
-                            </div>
-                        </div>
-                        <!-- Modal de pago -->
-                        <div id="modal-pago" class="modal">
-                            <div class="modal-contenido">
-                                <span class="cerrar">&times;</span>
-                                <!-- Formulario de pago -->
-                                <div id="formulario-pago">
-                                    {% csrf_token %}
-                                    <h2>Información de Pago</h2>
-                                    <form id="pago-form">
-                                        <label for="nombre">Nombre:</label>
-                                        <input type="text" id="nombre" name="nombre" required>
-                                        <label for="apellido">Apellido:</label>
-                                        <input type="text" id="apellido" name="apellido" required>
-                                        <label for="celular">Celular:</label>
-                                        <input type="tel" id="celular" name="celular" required>
-                                        <label for="municipio">Municipio:</label>
-                                        <input type="text" id="municipio" name="municipio" required>
-                                        <label for="residencia">Dirección:</label>
-                                        <input type="text" id="residencia" name="residencia" required>
-                                        <label for="email">Correo Electrónico:</label>
-                                        <input type="text" id="email" name="email" required>
-                                </div>
-                                <!-- Productos en el carrito -->
-                                <div id="productos-pago">
-                                    <h3>Productos en el carrito:</h3>
-                                </div>
-                                <!-- Métodos de pago -->
-                                <div class="opciones-pago">
-                                    <h2>Selecciona un método de pago</h2>
-                                    <button id="nequi">Nequi</button>
-                                    <button id="daviplata">Daviplata</button>
-                                </div>
-                                <!-- Código QR y número de teléfono -->
-                                <div id="qr-container" style="display: none;">
-                                    <h3>Escanea el código QR para pagar</h3>
-                                    <img id="qr-imagen" src="" alt="Código QR">
-                                    <p id="qr-texto" style="display: none;"></p>
-                                    <div id="total-pago">
-                                        <h3>Total: <span id="monto-total">$0</span></h3>
-                                    </div>
-                                    <button id="confirmarPago">Confirmar Pago</button>
-                                </form>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+            <div class="category-item" data-category="roscas">
+                <img src="{% static 'img/categorias/roscas.png' %}" alt="Icono Roscas" class="category-icon">
+                <h5 class="category-title">Roscas</h5>
+            </div>
+            <div class="category-item" data-category="suspiros">
+                <img src="{% static 'img/categorias/suspiro.png' %}" alt="Icono Suspiros" class="category-icon">
+                <h5 class="category-title">Suspiros</h5>
+            </div>
+            <div class="category-item" data-category="galletas">
+                <img src="{% static 'img/categorias/galleta.png' %}" alt="Icono Galletas" class="category-icon">
+                <h5 class="category-title">Galletas</h5>
+            </div>
+            <div class="category-item" data-category="bizcochos">
+                <img src="{% static 'img/categorias/bizcocho.png' %}" alt="Icono Bizcochos" class="category-icon">
+                <h5 class="category-title">Bizcochos</h5>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <div class="slider-arrow" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="slider-arrow" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Carrito de compras -->
+<section class="container-top-products">
+    <h1 class="heading-1">Nuestros Productos</h1>
+    <div class="container-options">
+        <span class="active">Galería de fotos</span>
+    </div>
+
+    {% load humanize %}
+    <section class="contenedor" id="Galeria">
+        <div class="contenedor-items">
+            {% for producto in productos %}
+            <div class="item" data-categoria="{{ producto.categoria|lower }}">
+                <span class="titulo-item">{{ producto.nombre }}</span>
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-item">
+                <span class="precio-item">${{ producto.precio|floatformat:0|intcomma }}</span>
+                <button class="boton-item agregar-carrito">Agregar al Carrito</button>
+            </div>
+            {% empty %}
+            <p>No hay productos disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Carrito de Compras -->
+        <div class="carrito">
+            <div class="header-carrito">
+                <h2>Tu Carrito</h2>
+            </div>
+            <div class="carrito-items"></div>
+            <div class="carrito-total">
+                <div class="fila">
+                    <strong>Tu Total</strong>
+                    <span class="carrito-precio-total">$0</span>
+                </div>
+                <button class="btn-pagar" id="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+    <!-- Modal de pago -->
+    <!-- Fondo oscuro detrás del modal -->
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+
+    <!-- Modal de pago -->
+    <div id="modal-pago" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar">&times;</span>
+
+            <!-- Formulario de pago -->
+            <div id="formulario-pago">
+                <h2>Información de Pago</h2>
+                <form id="pago-form">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                    <label for="celular">Celular:</label>
+                    <input type="tel" id="celular" name="celular" required>
+                    <label for="municipio">Municipio:</label>
+                    <input type="text" id="municipio" name="municipio" required>
+                    <label for="residencia">Dirección:</label>
+                    <input type="text" id="residencia" name="residencia" required>
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="text" id="email" name="email" required>
+                </form>
+            </div>
+
+            <!-- Productos en el carrito -->
+            <div id="productos-pago">
+                <h3>Productos en el carrito:</h3>
+            </div>
+
+            <!-- Métodos de pago -->
+            <div class="opciones-pago">
+                <h2>Selecciona un método de pago</h2>
+                <button id="nequi">Nequi</button>
+                <button id="daviplata">Daviplata</button>
+            </div>
+
+            <!-- Código QR y total -->
+            <div id="qr-container">
+                <h3>Escanea el código QR para pagar</h3>
+                <img id="qr-imagen" src="ruta/a/tu/qr.png" alt="Código QR">
+                <p id="qr-texto">Escanea este código para completar el pago.</p>
+                <div id="total-pago">
+                    <h3>Total: <span id="monto-total">$0</span></h3>
+                </div>
+
+                <!-- Spinner de carga -->
+                <div id="spinner" style="display: none;">
+                    <p>Procesando tu pago...</p>
+                    <div class="spinner"></div>
+                </div>
+
+                <button id="confirmarPago">Confirmar Pago</button>
+            </div>
+        </div>
+    </div>
+
 
             <!-- Sección Quiénes Somos -->
             <section class="about-us" id="Quienes">
@@ -290,7 +307,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/animaciones.js' %}"></script>
-<script src="{% static 'js/app.js' %}"></script>
 
 
 {% endblock %}
