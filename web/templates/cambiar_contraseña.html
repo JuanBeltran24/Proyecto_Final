@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cambiar Contraseña</title>
+    <link rel="stylesheet" href="{% static 'restablecer.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Ingresa tu nueva contraseña</h2>
+        <p>Por favor, ingresa una contraseña segura y única para proteger tu cuenta.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="password" name="password" placeholder="Nueva contraseña" required>
+            <button type="submit">Guardar</button>
+        </form>
+    </div>
+</body>
+</html>

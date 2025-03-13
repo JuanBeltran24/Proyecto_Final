@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sabrosuras del Huila</title>
+    
+    <link rel="stylesheet" href="{% static 'estilos.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/Sabrosuras del Huila.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header avanzado con efecto de scroll -->
+<header class="site-header">
+    <!-- Barra superior (se oculta al hacer scroll) -->
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-content">
+
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra principal (persistente con scroll) -->
+    <div class="main-header">
+        <div class="container">
+            <div class="main-header-content">
+
+                
+                <!-- Logo -->
+                <div class="logo-wrapper">
+                    <h1 class="site-logo">
+                        <a href="/">
+                            <span class="logo-text">Sabrosuras del Huila</span>
+                        </a>
+                    </h1>
+                </div>
+
+                <!-- Navegación principal -->
+                <nav class="main-navigation" aria-label="Navegación principal">
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="#inicio" class="nav-link">
+                                <i class="fa-solid fa-home"></i>
+                                <span>Inicio</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#Quienes" class="nav-link">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Quiénes somos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#Servicio" class="nav-link">
+                                <i class="fa-solid fa-list"></i>
+                                <span>Categorías</span>   
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#Galeria" class="nav-link">
+                                <i class="fa-solid fa-store"></i>
+                                <span>Productos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#ubi" class="nav-link">
+                                <i class="fa-solid fa-map-marker-alt"></i>
+                                <span>Ubicación</span>
+                            </a>
+                        </li>
+                        <li class="nav-item highlight">
+                            <a href="{% url 'contactanos' %}" class="nav-link contact-btn">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Contáctanos</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Acciones de usuario -->
+                <div class="user-actions">
+
+
+
+                    <!-- Icono de usuario -->
+                    <div class="user-account">
+                        {% if user.is_authenticated %}
+                            <div class="user-account-trigger" id="user-toggle">
+                                <div class="user-avatar">
+                                    <i class="fa-solid fa-user-circle"></i>
+                                </div>
+                                <div class="user-info">
+                                    <span class="username">{{ user.username }}</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                            </div>
+                            <div class="user-menu">
+                                <div class="user-menu-header">
+                                    <div class="user-avatar large">
+                                        <i class="fa-solid fa-user-circle"></i>
+                                    </div>
+                                    <div class="user-details">
+                                        <span class="user-greeting">Hola,</span>
+                                        <span class="user-name">{{ user.username }}</span>
+                                    </div>
+                                </div>
+                                <div class="user-menu-items">
+                                    <a href="{% url 'manual_usuario' %}" class="user-menu-link" target="_blank">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>Manual de usuario</span>
+                                    </a>
+                                    <a href="{% url 'logout' %}" class="user-menu-link logout">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        <span>Cerrar sesión</span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="login-button">
+                                <i class="fa-solid fa-user"></i>
+                                <span>Iniciar sesión</span>
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Botón de menú móvil -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-label="Menú">
+                        <span class="menu-bar"></span>
+                        <span class="menu-bar"></span>
+                        <span class="menu-bar"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay para cuando se activan menús móviles -->
+<div class="site-overlay" id="site-overlay"></div>
+    
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container container-footer">
+            <div class="menu-footer">
+                <div class="contact-info">
+                    <p class="title-footer">Información de Contacto</p>
+                    <ul>
+                        <li>Dirección: Carrera 9 #5 - 29 Centro</li>
+                        <li>Teléfono: 3204500034</li>
+                        <li>Email: sabrohuila@gmail.com</li>
+                    </ul>
+                </div>
+
+                <div class="information">
+                    <p class="title-footer">Información</p>
+                    <ul>
+                        <li><a href="#Quienes">Acerca de Nosotros</a></li>
+                        <li><a href="#">Políticas de Privacidad</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                    </ul>
+                </div>
+
+                <div class="my-account">
+                    <p class="title-footer">Nuestras redes</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/profile.php?id=61561505656583&locale=es_LA" class="facebook" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="" class="youtube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/sabrosura_del_huila/" class="instagram" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>         
+        </div>
+    </footer>
+
+    <script src="{% static 'js/menu.js' %}"></script>
+</body>
+</html>

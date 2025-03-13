@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contraseña Cambiada</title>
+    <link rel="stylesheet" href="{% static 'restablecer.css' %}">
+</head>
+<body class="contraseña-cambiada">
+    <div class="container">
+        <h2>¡Contraseña cambiada con éxito!</h2>
+        <p>Tu contraseña ha sido actualizada correctamente. Ahora puedes iniciar sesión con tu nueva contraseña.</p>
+        <a href="{% url 'login' %}">Iniciar sesión</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,169 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: linear-gradient(90deg, rgba(255, 223, 186, 0.9), rgba(255, 183, 77, 0.9)), 
+  url("/static/img/Sabrosuras del Huila.png");
+  background-size: cover;
+  background-position: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+
+.form-register {
+  width: 420px;
+  background: rgba(255, 250, 205, 0.95);
+  padding: 20px 40px; 
+  border-radius: 15px;
+  box-shadow: 5px 8px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border: 2px solid #f4c542; 
+  
+}
+
+
+.form-register h4 {
+  font-size: 28px;
+  font-weight: bold;
+  padding-top: 20px; 
+  margin-bottom: 30px; 
+  color: #d4a017; 
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px; 
+  margin-bottom: 30px;
+}
+
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.input-box label {
+  font-weight: bold;
+  color: #8b6f21;
+  margin-bottom: 6px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #e1b12c;
+  font-size: 16px;
+  color: black;
+  background: #fff8dc; 
+  transition: all 0.3s ease-in-out;
+}
+
+.input-box input:focus {
+  border: 1px solid #d4a017;
+  outline: none;
+  background: #fff2c9; 
+}
+
+/* Mensajes de error */
+.messages {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 5px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+
+.terms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.terms input {
+  width: 18px;
+  height: 18px;
+}
+
+.terms a {
+  color: #d4a017;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}
+
+
+.botons {
+  width: 100%;
+  background: #f4c542;
+  border: none;
+  padding: 14px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.botons:hover {
+  background: #d4a017;
+  transform: scale(1.05);
+}
+
+
+.login-link {
+  margin-top: 20px;
+}
+
+.login-link a {
+  text-decoration: none;
+  color: #d4a017;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.password-requirements {
+  list-style-type: none;
+  padding: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+.password-requirements li {
+  margin: 5px 0;
+}
+
+

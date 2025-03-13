@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'estilos.css' %}">
+
+    <!-- banner -->
+    <section class="banner" id="inicio">
+        <div id="bannerCarousel" class="carousel slide" data-ride="carousel" data-bs-interval="5000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'img/img5.jpeg' %}" class="d-block w-100" alt="Sabrosuras del Huila">
+                </div>
+                <!-- Añadir más items del carrusel aquí -->
+                <div class="carousel-item">
+                    <img src="{% static 'img/biz5.jpeg' %}" class="d-block w-100" alt="Sabrosuras del Huila 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/img1.jpeg' %}" class="d-block w-100" alt="Sabrosuras del Huila 2">
+                </div>
+            </div>
+        </div>
+        <div class="content-banner">
+            <p>Productos Típicos del Huila</p>
+            <h2>100% Artesanal <br />Descubre el encanto de lo Artesanal</h2>
+        </div>
+    </section>
+    
+    <!-- FEAURES -->
+    <main class="main-content">
+        <section class="container container-features">
+            <div class="card-feature elemento-animado">
+                <i class="fa-brands fa-avianex"></i>
+                <div class="feature-content">
+                    <span>Envío gratuito a nivel nacional</span>
+                    <p>En pedido superior a $300.000</p>
+                </div>
+            </div>
+            <div class="card-feature elemento-animado">
+                <i class="fa-solid fa-wallet"></i>
+                <div class="feature-content">
+                    <span>Contraentrega</span>
+                    <p>100% garantía de devolución de dinero</p>
+                </div>
+            </div>
+            <div class="card-feature elemento-animado">
+                <i class="fa-solid fa-gift"></i>
+                <div class="feature-content">
+                    <span>Ofertas especiales</span>
+                    <p>Descuentos por compras grandes</p>
+                </div>
+            </div>
+            <div class="card-feature elemento-animado">
+                <i class="fa-solid fa-headset"></i>
+                <div class="feature-content">
+                    <span>Atención al cliente</span>
+                    <p>Llámanos al 3204500034</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Categorías -->
+<section class="container top-categories" id="Servicio">
+    <h1 class="heading-categories">Categorías</h1>
+    <div class="categories-container">
+        <div class="categories-slider" id="categoriesSlider">
+            <div class="category-item active" data-category="todos">
+                <img src="{% static 'img/categorias/todo.png' %}" alt="Icono Todos" class="category-icon">
+                <h5 class="category-title">Todos</h5>
+            </div>
+            <div class="category-item" data-category="roscas">
+                <img src="{% static 'img/categorias/roscas.png' %}" alt="Icono Roscas" class="category-icon">
+                <h5 class="category-title">Roscas</h5>
+            </div>
+            <div class="category-item" data-category="suspiros">
+                <img src="{% static 'img/categorias/suspiro.png' %}" alt="Icono Suspiros" class="category-icon">
+                <h5 class="category-title">Suspiros</h5>
+            </div>
+            <div class="category-item" data-category="galletas">
+                <img src="{% static 'img/categorias/galleta.png' %}" alt="Icono Galletas" class="category-icon">
+                <h5 class="category-title">Galletas</h5>
+            </div>
+            <div class="category-item" data-category="bizcochos">
+                <img src="{% static 'img/categorias/bizcocho.png' %}" alt="Icono Bizcochos" class="category-icon">
+                <h5 class="category-title">Bizcochos</h5>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <div class="slider-arrow" id="prevBtn">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="slider-arrow" id="nextBtn">
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Carrito de compras -->
+<section class="container-top-products">
+    <h1 class="heading-1">Nuestros Productos</h1>
+    <div class="container-options">
+        <span class="active">Galería de fotos</span>
+    </div>
+
+    {% load humanize %}
+    <section class="contenedor" id="Galeria">
+        <div class="contenedor-items">
+            {% for producto in productos %}
+            <div class="item" data-categoria="{{ producto.categoria|lower }}">
+                <span class="titulo-item">{{ producto.nombre }}</span>
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-item">
+                <span class="precio-item">${{ producto.precio|floatformat:0|intcomma }}</span>
+                <button class="boton-item agregar-carrito">Agregar al Carrito</button>
+            </div>
+            {% empty %}
+            <p>No hay productos disponibles en este momento.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Carrito de Compras -->
+        <div class="carrito">
+            <div class="header-carrito">
+                <h2>Tu Carrito</h2>
+            </div>
+            <div class="carrito-items"></div>
+            <div class="carrito-total">
+                <div class="fila">
+                    <strong>Tu Total</strong>
+                    <span class="carrito-precio-total">$0</span>
+                </div>
+                <button class="btn-pagar" id="btn-pagar">Pagar <i class="fa-solid fa-bag-shopping"></i></button>
+            </div>
+        </div>
+    </section>
+</section>
+
+
+    <!-- Modal de pago -->
+    <!-- Fondo oscuro detrás del modal -->
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+
+    <!-- Modal de pago -->
+    <div id="modal-pago" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar">&times;</span>
+
+            <!-- Formulario de pago -->
+            <div id="formulario-pago">
+                <h2>Información de Pago</h2>
+                <form id="pago-form">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                    <label for="celular">Celular:</label>
+                    <input type="tel" id="celular" name="celular" required>
+                    <label for="municipio">Municipio:</label>
+                    <input type="text" id="municipio" name="municipio" required>
+                    <label for="residencia">Dirección:</label>
+                    <input type="text" id="residencia" name="residencia" required>
+                    <label for="email">Correo Electrónico:</label>
+                    <input type="text" id="email" name="email" required>
+                </form>
+            </div>
+
+            <!-- Productos en el carrito -->
+            <div id="productos-pago">
+                <h3>Productos en el carrito:</h3>
+            </div>
+
+            <!-- Métodos de pago -->
+            <div class="opciones-pago">
+                <h2>Selecciona un método de pago</h2>
+                <button id="nequi">Nequi</button>
+                <button id="daviplata">Daviplata</button>
+            </div>
+
+            <!-- Código QR y total -->
+            <div id="qr-container">
+                <h3>Escanea el código QR para pagar</h3>
+                <img id="qr-imagen" src="ruta/a/tu/qr.png" alt="Código QR">
+                <p id="qr-texto">Escanea este código para completar el pago.</p>
+                <div id="total-pago">
+                    <h3>Total: <span id="monto-total">$0</span></h3>
+                </div>
+
+                <!-- Spinner de carga -->
+                <div id="spinner" style="display: none;">
+                    <p>Procesando tu pago...</p>
+                    <div class="spinner"></div>
+                </div>
+
+                <button id="confirmarPago">Confirmar Pago</button>
+            </div>
+        </div>
+    </div>
+
+
+            <!-- Sección Quiénes Somos -->
+            <section class="about-us" id="Quienes">
+                <div class="about-us-container">
+                    <div class="about-us-content">
+                        <h1 class="about-us-title">¿Quiénes Somos?</h1>
+                        <div class="about-us-grid">
+                            <div class="about-us-item">
+                                <div class="item-icon">
+                                    <i class="fa-solid fa-bullseye"></i>
+                                </div>
+                                <div class="item-content">
+                                    <h2>Misión</h2>
+                                    <p>Nuestra misión es deleitar a nuestros clientes con biscochería y galletas artesanales de alta calidad, utilizando ingredientes naturales y apoyando a productores locales.</p>
+                                </div>
+                            </div>
+                            <div class="about-us-item">
+                                <div class="item-icon">
+                                    <i class="fa-solid fa-eye"></i>
+                                </div>
+                                <div class="item-content">
+                                    <h2>Visión</h2>
+                                    <p>Ser la biscochería más reconocida en la región por calidad, innovación y satisfacción del cliente.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-us-image">
+                        <img src="{% static 'img/Sabrosuras del huila.png' %}" alt="Imagen de Quiénes Somos">
+                    </div>
+                </div>
+            </section>
+
+<!-- Mapa -->
+<section class="advanced-map" id="ubi">
+    <h1 class="map-title">Descubre Nuestra Ubicación</h1>
+    <div class="map-container">
+        <div class="map-wrapper">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!4v1739285373774!6m8!1m7!1sO_Qbs_iO9PM15UiKdcoh5Q!2m2!1d2.195362359648235!2d-75.62832856170553!3f321.4959725531632!4f-20.644126725283144!5f0.7820865974627469"
+                width="100%"
+                height="500"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                class="map-iframe"
+            ></iframe>
+        </div>
+        <div class="map-info">
+            <h2 class="info-title">¿Cómo llegar?</h2>
+            <p class="info-text">
+                ¡Encuéntranos fácilmente! Estamos ubicados en el centro de la ciudad, en un lugar lleno de vida y sabor. 
+                Aquí te proporcionamos información importante.
+            </p>
+            <ul class="info-list">
+                <li><i class="fas fa-map-marker-alt"></i> <strong>Dirección:</strong> Carrera 9 #5 - 29, Centro.</li>
+                <li><i class="fas fa-phone"></i> <strong>Teléfono:</strong> +57 320 450 0034.</li>
+                <li><i class="fas fa-envelope"></i> <strong>Email:</strong> sabrohuila@gmail.com.</li>
+                <li><i class="fas fa-map-marker-alt"></i> <strong>Punto fisico:</strong> Garzon - Huila</li>
+            </ul>
+            <p class="info-text">
+                ¡Te esperamos con los brazos abiertos y los sabores más auténticos del Huila!
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Video -->
+<section class="advanced-video" id="ubi">
+    <h1 class="video-title">Sumérgete en la Experiencia</h1>
+    <div class="video-container">
+        <!-- Información adicional (ahora a la izquierda) -->
+        <div class="video-info">
+            <h2 class="info-title">Explora Nuestro Mundo</h2>
+            <p class="info-text">
+                Sumérgete en una experiencia única. En este video, te guiamos hasta nuestro punto fisico, donde la tradición y el sabor se fusionan para brindarte lo mejor.
+            </p>
+            <p class="info-text">
+                Descubre nuestro proceso de trabajo y la pasión que ponemos en cada producto. ¡Te garantizamos que después de verlo, querrás visitarnos!
+            </p>
+        </div>
+
+        <!-- Video interactivo (ahora a la derecha) -->
+        <div class="video-wrapper">
+            <video controls autoplay muted loop class="video-player">
+                <source src="{% static 'video/1.mp4' %}" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+            </video>
+        </div>
+    </div>
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static 'js/app.js' %}"></script>
+<script src="{% static 'js/animaciones.js' %}"></script>
+
+
+{% endblock %}
+

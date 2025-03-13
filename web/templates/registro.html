@@ -1,0 +1,70 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Registro</title>
+    <link rel="stylesheet" href="{% static 'registro.css' %}">
+</head>
+<body>
+    <section class="form-register">
+        <h4>Formulario de Registro</h4>
+
+      
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="error-message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+
+       
+        <form method="POST">
+            {% csrf_token %}
+
+       
+            <div class="form-group">
+                <div class="input-box">
+                    {{ form.username.label_tag }} 
+                    {{ form.username }}  
+                </div>
+                <div class="input-box">
+                    {{ form.email.label_tag }} 
+                    {{ form.email }}  
+                </div>
+                <div class="input-box">
+                    {{ form.password1.label_tag }} 
+                    {{ form.password1 }} 
+                </div>
+                <div class="input-box">
+                    {{ form.password2.label_tag }} 
+                    {{ form.password2 }}  
+                </div>
+            </div>
+
+        
+            <div class="terms">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Estoy de acuerdo con <a href="#">Términos y Condiciones</a></label>
+            </div>
+
+        
+            <input class="botons" type="submit" value="Registrar">
+
+           
+            <div class="login-link">
+                <a href="{% url 'login' %}">¿Ya tienes cuenta? Inicia sesión</a>
+
+            </div>
+        </form>
+    </section>
+</body>
+</html>
+
+ 
+
+ 

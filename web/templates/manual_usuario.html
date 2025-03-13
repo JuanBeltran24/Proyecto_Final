@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="manual-container">
+    <header class="manual-header">
+        <h1>Manual de Usuario</h1>
+        <h2>Bizcochería DulceSabor</h2>
+        <p>Bienvenido al manual de usuario de nuestra bizcochería. Aquí encontrarás toda la información necesaria para disfrutar de nuestros productos y servicios.</p>
+    </header>
+
+    
+    
+    <div class="section" id="indice">
+        <h2>Índice</h2>
+        <ol>
+            <li><a href="#introduccion">Introducción</a></li>
+            <li><a href="#productos">Nuestros Productos</a></li>
+            <li><a href="#pedidos">Cómo Hacer un Pedido</a></li>
+            <li><a href="#entrega">Política de Entrega</a></li>
+            <li><a href="#pagos">Métodos de Pago</a></li>
+            <li><a href="#preguntas">Preguntas Frecuentes</a></li>
+        </ol>
+    </div>
+    <div class="section" id="introduccion">
+        <h2>1. Introducción</h2>
+        <p>Gracias por elegir <strong>Bizcochería  Sabrosuras Del Huila</strong>. ¡Bienvenido a Bizcochería Sabrosuras Del Huila! Nos complace que nos hayas elegido para endulzar tus momentos especiales con nuestra deliciosa variedad de productos tradicionales. Nuestro compromiso es ofrecerte productos de alta calidad, elaborados con recetas auténticas que han pasado de generación en generación.
+
+            En este manual, encontrarás toda la información necesaria para disfrutar de nuestros servicios de manera fácil y rápida. Te explicaremos cómo realizar pedidos, cuáles son nuestros métodos de pago y nuestras políticas de entrega. También te daremos recomendaciones para conservar nuestros productos y aprovechar al máximo su sabor y frescura.</p>
+    </div>
+    <div class="section" id="productos">
+        <h2>2. Nuestros Productos</h2>
+        <p>En Sabrosuras Del Huila ofrecemos una amplia variedad de productos horneados:</p>
+        <ul>
+            <li><strong>Bizcochos personalizados</strong>: Para cumpleaños, bodas y eventos especiales.</li>
+            <li><strong>Merengos</strong>: bastante dulcesitos y sabrosos.</li>
+            <li><strong>Galletas </strong>: Ideales para regalos o celebraciones.</li>
+            <li><strong>roscas tostadas</strong>: bien crujientes y deliciosas con tinto.</li>
+        </ul>
+        <img src="{% static 'img/PRODUCTOS.png' %}" alt="Nuestros Productos">
+    </div>
+    <div class="section" id="pedidos">
+        <h2>3. Cómo Hacer un Pedido</h2>
+        <p>Sigue estos pasos para realizar tu pedido:</p>
+        <ol>
+            <li>Visita nuestra página web y selecciona la categoría de productos.</li>
+            <li>Elige el producto que deseas  (si es necesario).</li>
+            <li>Agrega el producto al carrito de compras.</li>
+            <li>Procede al checkout y completa tus datos de envío.</li>
+            <li>Selecciona el método de pago y confirma tu pedido.</li>
+        </ol>
+    </div>
+    <div class="section" id="entrega">
+        <h2>4. Política de Entrega</h2>
+        <ul>
+            <li>Entregamos en un radio de 20 km desde nuestra ubicación principal.</li>
+            <li>El tiempo de entrega es de 24 a 48 horas hábiles.</li>
+            <li>Para eventos especiales, se recomienda hacer el pedido con al menos 72 horas de anticipación.</li>
+        </ul>
+    </div>
+    <div class="section" id="pagos">
+        <h2>5. Métodos de Pago</h2>
+        <p>Aceptamos los siguientes métodos de pago:</p>
+        <ul>
+            <li>Transferencias bancarias.</li>
+            <li>Efectivo al momento de la entrega.</li>
+        </ul>
+    </div>
+    <div class="section" id="preguntas">
+        <h2>6. Preguntas Frecuentes</h2>
+        <h3>¿Puedo cancelar mi pedido?</h3>
+        <p>Sí, puedes cancelar tu pedido con al menos 24 horas de anticipación.</p>
+        <h3>¿Hacen envíos a domicilio?</h3>
+        <p>Sí, realizamos envíos a domicilio dentro de nuestra zona de cobertura.</p>
+    </div>
+</div>
+{% endblock %}
+
+
+
