@@ -460,16 +460,22 @@ ul {
     text-overflow: ellipsis;
 }
 
-/* css para el html manual */
-/* Estilos para el Manual de Usuario */
+/* CSS para el Manual de Usuario */
+
 .manual-container {
     width: 90%;
     max-width: 800px;
     margin: 20px auto;
     background: #fff;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .manual-header {
@@ -478,12 +484,13 @@ ul {
 }
 
 .manual-header h1 {
-    font-size: 2.5em;
-    color: #f59d46; /* Rojo pastel */
+    font-size: 3em;
+    color: #f59d46;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .manual-header h2 {
-    font-size: 1.8em;
+    font-size: 2em;
     color: #555;
 }
 
@@ -492,75 +499,115 @@ ul {
 }
 
 .section h2 {
-    font-size: 1.8em;
-    color: #f59d46; /* Rojo pastel */
-    border-bottom: 2px solid #f59d46;
+    font-size: 2em;
+    color: #f59d46;
+    border-bottom: 3px solid #f59d46;
     padding-bottom: 5px;
     margin-bottom: 15px;
 }
 
 .section h3 {
-    font-size: 1.4em;
+    font-size: 1.6em;
     color: #555;
     margin-top: 20px;
 }
 
 .section p, .section ul, .section ol {
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #333;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
 .section ul, .section ol {
-    margin-left: 20px;
+    margin-left: 25px;
 }
 
 .section img {
-    max-width: 100%;
+    max-width: 60%; /* Reducido aún más el tamaño de las imágenes */
     height: auto;
     display: block;
-    margin: 10px 0;
+    margin: 10px auto;
     border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.section img:hover {
+    transform: scale(1.05);
 }
 
 /* Estilos para el índice en cuadrícula */
 #indice ol {
-    list-style-type: none; /* Quita los números predeterminados */
+    list-style-type: none;
     padding-left: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Crea columnas automáticas */
-    gap: 15px; /* Espacio entre elementos */
-}
-
-#indice ol li {
-    margin-bottom: 0; /* Elimina el margen inferior */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
 }
 
 #indice ol li a {
-    text-decoration: none; /* Quita el subrayado */
-    color: #000; /* Color rojo pastel */
-    font-size: 1.1em;
+    text-decoration: none;
+    color: #000;
+    font-size: 1.3em;
     font-weight: bold;
     padding: 12px 15px;
     border: 2px solid #f59d46;
     border-radius: 5px;
-    display: block; /* Hace que el enlace ocupe todo el espacio del li */
+    display: block;
     text-align: center;
-    transition: all 0.3s ease; /* Efecto de transición */
-    background-color: #fff; /* Fondo blanco */
+    transition: all 0.3s ease;
+    background-color: #fff;
 }
 
 #indice ol li a:hover {
-    background-color: #f59d46; /* Fondo rojo al pasar el mouse */
-    color: #fff; /* Texto blanco al pasar el mouse */
-    transform: translateY(-3px); /* Efecto de elevación */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    background-color: #f59d46;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #indice ol li a:active {
-    transform: translateY(0); /* Efecto al hacer clic */
+    transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+/* Estilos para los productos */
+.producto-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.producto-item:hover {
+    transform: scale(1.05);
+}
+
+.producto-title {
+    font-size: 1.6em;
+    color: #f59d46;
+    margin-bottom: 5px;
+}
+
+.producto-description {
+    font-size: 1.2em;
+    color: #333;
+    flex: 1;
+}
+
+.producto-item img {
+    width: 40%; /* Ajustando tamaño de imagen */
+    border-radius: 8px;
+}
+
+
+
 
 
 
