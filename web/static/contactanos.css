@@ -170,6 +170,12 @@ body {
     }
 }
 
+@media (max-width: 468px) {
+    .contact-container{
+        margin-top: 18rem;
+    }
+}
+
 /* Animaciones Avanzadas */
 @keyframes advancedSlideDown {
     0% {
