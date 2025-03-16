@@ -230,7 +230,9 @@ def contactanos(request):
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.conf import settings
+from django.shortcuts import render
 import json
+from web.models import HistorialCompra  # Asegúrate de importar tu modelo
 
 def enviar_correo_confirmacion(request):
     if request.method == "POST":
@@ -241,7 +243,7 @@ def enviar_correo_confirmacion(request):
             # Verificar qué datos está recibiendo Django
             print("Datos recibidos en el backend:", data)
 
-            email_cliente = data.get("email")  # Correo del cliente
+            email_cliente = data.get("email")
             nombre = data.get("nombre", "")
             apellido = data.get("apellido", "")
             celular = data.get("celular", "")
@@ -251,6 +253,29 @@ def enviar_correo_confirmacion(request):
             metodo_pago = data.get("metodo_pago", "No especificado")
             total = data.get("total", "0")
 
+            # Verificar si el email del cliente está vacío
+            if not email_cliente:
+                return JsonResponse({"error": "No se recibió el email del cliente"}, status=400)
+
+            # Guardar historial de compra en la base de datos
+            try:
+                historial = HistorialCompra.objects.create(
+                    email=email_cliente,
+                    nombre=nombre,
+                    apellido=apellido,
+                    celular=celular,
+                    municipio=municipio,
+                    residencia=residencia,
+                    productos=productos,
+                    metodo_pago=metodo_pago,
+                    total=total
+                )
+                historial.save()
+                print("Historial de compra guardado correctamente")
+            except Exception as e:
+                print(f"Error al guardar historial: {e}")
+                return JsonResponse({"error": "No se pudo guardar el historial"}, status=500)
+
             # Definir la URL de la imagen del QR según el método de pago
             qr_imagen = ""
             if metodo_pago == "Nequi":
@@ -258,33 +283,23 @@ def enviar_correo_confirmacion(request):
             elif metodo_pago == "Daviplata":
                 qr_imagen = "https://i.imgur.com/4ZDJQ7N.jpeg"
 
-            # Verificar si el email del cliente está vacío
-            if not email_cliente:
-                return JsonResponse({"error": "No se recibió el email del cliente"}, status=400)
-
-            print(f"Email cliente recibido: {email_cliente}")
-
             # Construcción del mensaje en HTML para el cliente
             mensaje_html_cliente = f"""
             <html>
             <body style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f9; padding: 30px;">
                 <div style="background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 700px; margin: auto;">
                     <h2 style="color: #FF5733; font-size: 36px; margin-bottom: 20px; text-align: center;">¡Gracias por tu compra, {nombre} {apellido}!</h2>
-                    <p style="font-size: 18px; line-height: 1.6;">Estamos emocionados de que hayas elegido nuestros productos. Aquí tienes los detalles de tu compra:</p>
-
+                    <p style="font-size: 18px; line-height: 1.6;">Aquí tienes los detalles de tu compra:</p>
                     <h3 style="color: #FF5733; font-size: 22px;">📌 Productos comprados:</h3>
                     <pre style="background-color: #f8f8f8; padding: 10px; border-left: 4px solid #FF5733; font-size: 18px; color: #333;">{productos}</pre>
-
                     <h3 style="color: #FF5733; font-size: 22px;">💰 Total: ${total}</h3>
                     <h3 style="color: #FF5733; font-size: 22px;">📢 Método de pago: {metodo_pago}</h3>
-
                     <h3 style="color: #FF5733; font-size: 22px;">📍 Datos del comprador:</h3>
                     <ul style="font-size: 18px; color: #555;">
                         <li><strong>Celular:</strong> {celular}</li>
                         <li><strong>Municipio:</strong> {municipio}</li>
                         <li><strong>Residencia:</strong> {residencia}</li>
                     </ul>
-                    <p style="font-size: 18px; color: #333; text-align: center;">Gracias por confiar en nosotros. Te enviaremos cualquier actualización sobre tu pedido.</p>
             """
 
             # Si el método de pago es Nequi o Daviplata, agregar el QR al correo al cliente
@@ -302,60 +317,42 @@ def enviar_correo_confirmacion(request):
             """
 
             # Construcción del mensaje en HTML para el administrador (sin QR)
-            mensaje_html_admin = f"""
-            <html>
-            <body style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f9; padding: 30px;">
-                <div style="background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 700px; margin: auto;">
-                    <h2 style="color: #FF5733; font-size: 36px; margin-bottom: 20px; text-align: center;">Nueva compra realizada</h2>
-                    <p style="font-size: 18px; line-height: 1.6;">Se ha realizado una nueva compra. Aquí están los detalles:</p>
+            mensaje_html_admin = mensaje_html_cliente.replace("¡Gracias por tu compra, {nombre} {apellido}!", "Nueva compra realizada")
 
-                    <h3 style="color: #FF5733; font-size: 22px;">📌 Productos comprados:</h3>
-                    <pre style="background-color: #f8f8f8; padding: 10px; border-left: 4px solid #FF5733; font-size: 18px; color: #333;">{productos}</pre>
-
-                    <h3 style="color: #FF5733; font-size: 22px;">💰 Total: ${total}</h3>
-                    <h3 style="color: #FF5733; font-size: 22px;">📢 Método de pago: {metodo_pago}</h3>
-
-                    <h3 style="color: #FF5733; font-size: 22px;">📍 Datos del comprador:</h3>
-                    <ul style="font-size: 18px; color: #555;">
-                        <li><strong>Celular:</strong> {celular}</li>
-                        <li><strong>Municipio:</strong> {municipio}</li>
-                        <li><strong>Residencia:</strong> {residencia}</li>
-                    </ul>
-
-                    <p style="font-size: 18px; color: #333; text-align: center;">Revisa el comprobante y procesa la compra en el sistema.</p>
-                </div>
-            </body>
-            </html>
-            """
-
-            # Configurar remitente
+            # Enviar correos
             remitente = settings.EMAIL_HOST_USER
+            send_mail("Confirmación de compra", "", remitente, [email_cliente], fail_silently=False, html_message=mensaje_html_cliente)
+            send_mail("Nueva compra realizada", "", remitente, ["sabrosurashuila@gmail.com"], fail_silently=False, html_message=mensaje_html_admin)
 
-            # Enviar correo al cliente
-            send_mail(
-                subject="Confirmación de compra",
-                message="",
-                from_email=remitente,
-                recipient_list=[email_cliente],
-                fail_silently=False,
-                html_message=mensaje_html_cliente
-            )
-
-            # Enviar correo a la empresa (sin QR y con mensaje adicional)
-            send_mail(
-                subject="Nueva compra realizada",
-                message="",
-                from_email=remitente,
-                recipient_list=["sabrosurashuila@gmail.com"],  # Correo de la empresa
-                fail_silently=False,
-                html_message=mensaje_html_admin
-            )
-
-            return JsonResponse({"mensaje": "Correo enviado correctamente"})
+            return JsonResponse({"mensaje": "Compra registrada y correo enviado correctamente"})
 
         except Exception as e:
-            print(f"Error en el envío de correo: {e}")  # Imprime el error en la consola
+            print(f"Error en el envío de correo: {e}")
             return JsonResponse({"error": str(e)}, status=400)
+
+from django.utils.dateparse import parse_date
+from django.db.models import Q
+
+def historial_compras(request):
+    historial = HistorialCompra.objects.all().order_by('-fecha')
+
+    # Procesar productos para evitar errores en la plantilla
+    for compra in historial:
+        compra.productos_lista = compra.productos.split(',') if compra.productos else []
+
+    # Obtener el parámetro de fecha desde la URL
+    fecha_filtrada = request.GET.get('fecha')
+    
+    if fecha_filtrada:
+        fecha_filtrada = parse_date(fecha_filtrada)  # Convertir a formato de fecha
+        if fecha_filtrada:
+            historial = historial.filter(fecha__date=fecha_filtrada)
+
+    return render(request, 'historial_compras.html', {'historial': historial})
+
+
+
+
 
 
 from django.core.mail import send_mail
@@ -498,3 +495,7 @@ from django.shortcuts import render
 
 def manual_usuario(request):
     return render(request, 'manual_usuario.html')
+
+
+from django.shortcuts import render
+

@@ -2,6 +2,7 @@
 
 {% block content %}
 {% load static %}
+
 <div class="manual-container">
     <header class="manual-header">
         <h1>Manual de Usuario</h1>
@@ -9,71 +10,164 @@
         <p>Bienvenido al manual de usuario de nuestra bizcochería. Aquí encontrarás toda la información necesaria para disfrutar de nuestros productos y servicios.</p>
     </header>
 
-    
-    
     <div class="section" id="indice">
         <h2>Índice</h2>
         <ol>
             <li><a href="#introduccion">Introducción</a></li>
             <li><a href="#productos">Nuestros Productos</a></li>
             <li><a href="#pedidos">Cómo Hacer un Pedido</a></li>
-            <li><a href="#entrega">Política de Entrega</a></li>
-            <li><a href="#pagos">Métodos de Pago</a></li>
-            <li><a href="#preguntas">Preguntas Frecuentes</a></li>
+            <li><a href="#registro">Cómo Hacer un Registro</a></li>
+            <li><a href="#iniciar-sesion">Cómo Iniciar Sesión</a></li>
         </ol>
     </div>
+
     <div class="section" id="introduccion">
         <h2>1. Introducción</h2>
-        <p>Gracias por elegir <strong>Bizcochería  Sabrosuras Del Huila</strong>. ¡Bienvenido a Bizcochería Sabrosuras Del Huila! Nos complace que nos hayas elegido para endulzar tus momentos especiales con nuestra deliciosa variedad de productos tradicionales. Nuestro compromiso es ofrecerte productos de alta calidad, elaborados con recetas auténticas que han pasado de generación en generación.
+        <p>Gracias por elegir <strong>Bizcochería Sabrosuras Del Huila</strong>. ¡Bienvenido a Bizcochería Sabrosuras Del Huila! Nos complace que nos hayas elegido para endulzar tus momentos especiales con nuestra deliciosa variedad de productos tradicionales. Nuestro compromiso es ofrecerte productos de alta calidad, elaborados con recetas auténticas que han pasado de generación en generación.</p>
+        
+        <p>En este manual, encontrarás toda la información necesaria para disfrutar de nuestros servicios de manera fácil y rápida. Te explicaremos cómo realizar pedidos, cuáles son nuestros métodos de pago y nuestras políticas de entrega. También te daremos recomendaciones para conservar nuestros productos y aprovechar al máximo su sabor y frescura.</p>
+    </div>
 
-            En este manual, encontrarás toda la información necesaria para disfrutar de nuestros servicios de manera fácil y rápida. Te explicaremos cómo realizar pedidos, cuáles son nuestros métodos de pago y nuestras políticas de entrega. También te daremos recomendaciones para conservar nuestros productos y aprovechar al máximo su sabor y frescura.</p>
-    </div>
-    <div class="section" id="productos">
-        <h2>2. Nuestros Productos</h2>
-        <p>En Sabrosuras Del Huila ofrecemos una amplia variedad de productos horneados:</p>
-        <ul>
-            <li><strong>Bizcochos personalizados</strong>: Para cumpleaños, bodas y eventos especiales.</li>
-            <li><strong>Merengos</strong>: bastante dulcesitos y sabrosos.</li>
-            <li><strong>Galletas </strong>: Ideales para regalos o celebraciones.</li>
-            <li><strong>roscas tostadas</strong>: bien crujientes y deliciosas con tinto.</li>
-        </ul>
-        <img src="{% static 'img/PRODUCTOS.png' %}" alt="Nuestros Productos">
-    </div>
-    <div class="section" id="pedidos">
-        <h2>3. Cómo Hacer un Pedido</h2>
-        <p>Sigue estos pasos para realizar tu pedido:</p>
-        <ol>
-            <li>Visita nuestra página web y selecciona la categoría de productos.</li>
-            <li>Elige el producto que deseas  (si es necesario).</li>
-            <li>Agrega el producto al carrito de compras.</li>
-            <li>Procede al checkout y completa tus datos de envío.</li>
-            <li>Selecciona el método de pago y confirma tu pedido.</li>
+    <div class="section" id="registro">
+        <h2>2. Cómo Hacer un Registro</h2>
+        <p>Si aún no tienes una cuenta, te mostramos los pasos para crear una y disfrutar de todos nuestros servicios:</p>
+
+        <ol class="registro-steps">
+            <li>
+                <h3>1. Accede a la página de registro</h3>
+                <p>Visita la página de registro desde el enlace en la parte superior de nuestra web.</p>
+                <img src="{% static 'img/registro1.png' %}" alt="Paso 1: Página de registro">
+            </li>
+            <li>
+                <h3>2. Ingresa tus datos personales</h3>
+                <p>Introduce tu nombre, correo electrónico, y crea una contraseña segura para tu cuenta.</p>
+                <img src="{% static 'img/registro2.png' %}" alt="Paso 2: Ingreso de datos personales">
+            </li>
+            <li>
+                <h3>3. Acepta los términos y condiciones</h3>
+                <p>Lee y acepta nuestros términos y condiciones para proceder con el registro.</p>
+                <img src="{% static 'img/registro3.png' %}" alt="Paso 3: Aceptar términos y condiciones">
+            </li>
+            <li>
+                <h3>4. Haz clic en "Registrarse"</h3>
+                <p>Una vez ingresados tus datos, haz clic en el botón "Registrarse" para completar el proceso.</p>
+                <img src="{% static 'img/registro4.png' %}" alt="Paso 4: Botón de registrarse">
+            </li>
+            <li>
+                <h3>5. ¡Listo! Tu cuenta está creada</h3>
+                <p>Ahora puedes iniciar sesión con tu correo y contraseña para realizar tus compras y acceder a tu historial de pedidos.</p>
+                <img src="{% static 'img/registro5.png' %}" alt="Paso 5: Cuenta registrada">
+            </li>
         </ol>
     </div>
-    <div class="section" id="entrega">
-        <h2>4. Política de Entrega</h2>
-        <ul>
-            <li>Entregamos en un radio de 20 km desde nuestra ubicación principal.</li>
-            <li>El tiempo de entrega es de 24 a 48 horas hábiles.</li>
-            <li>Para eventos especiales, se recomienda hacer el pedido con al menos 72 horas de anticipación.</li>
-        </ul>
+
+    <div class="section" id="iniciar-sesion">
+        <h2>3. Cómo Iniciar Sesión</h2>
+        <p>A continuación te explicamos cómo iniciar sesión en nuestra plataforma para poder realizar tus compras y seguir el estado de tus pedidos:</p>
+
+        <ol class="iniciar-sesion-steps">
+            <li>
+                <h3>1. Accede a la página de inicio de sesión</h3>
+                <p>Visita la página de inicio de sesión desde el enlace en la parte superior de nuestra web.</p>
+                <img src="{% static 'img/inicio.png' %}" alt="Paso 1: Página de inicio de sesión">
+            </li>
+            <li>
+                <h3>2. Ingresa tus credenciales</h3>
+                <p>Introduce tu nombre de usuario y contraseña en los campos correspondientes.</p>
+                <img src="{% static 'img/inicio2.png' %}" alt="Paso 2: Ingreso de credenciales">
+            </li>
+            <li>
+                <h3>3. Haz clic en "Iniciar sesión"</h3>
+                <p>Después de ingresar tus datos, haz clic en el botón "Iniciar sesión" para acceder a tu cuenta.</p>
+                <img src="{% static 'img/inicio3.png' %}" alt="Paso 3: Botón de iniciar sesión">
+            </li>
+            <li>
+                <h3>4. ¡Listo! Accede a tu cuenta</h3>
+                <p>Una vez hayas iniciado sesión, podrás ver tu historial de pedidos, modificar tus datos y realizar nuevas compras.</p>
+                <img src="{% static 'img/inicio4.png' %}" alt="Paso 4: Cuenta de usuario">
+            </li>
+        </ol>
+
+        <p>Si no tienes una cuenta, puedes crear una fácilmente haciendo clic en "Registrarse" en la misma página de inicio de sesión.</p>
     </div>
-    <div class="section" id="pagos">
-        <h2>5. Métodos de Pago</h2>
-        <p>Aceptamos los siguientes métodos de pago:</p>
-        <ul>
-            <li>Transferencias bancarias.</li>
-            <li>Efectivo al momento de la entrega.</li>
-        </ul>
+
+    <div class="section" id="productos">
+        <h2>4. Nuestros Productos</h2>
+        <p>En Sabrosuras Del Huila ofrecemos una amplia variedad de productos horneados:</p>
+
+        <div class="producto-item">
+            <img src="{% static 'img/productos/merenges.jpeg' %}" alt="Merengos">
+            <div class="producto-description">
+                <h3>Merengos</h3>
+                <p>Un dulce ligero y crujiente, ideal para acompañar un café o como un pequeño placer para cualquier momento del día. ¡Su sabor es irresistible!</p>
+            </div>
+        </div>
+
+        <div class="producto-item">
+            <img src="{% static 'img/productos/galletanata.jpeg' %}" alt="Galletas nata">
+            <div class="producto-description">
+                <h3>Galletas</h3>
+                <p>Deliciosas y variadas, nuestras galletas son perfectas para regalar o disfrutar en cualquier ocasión. Disponibles en diferentes sabores y presentaciones.</p>
+            </div>
+        </div>
+
+        <div class="producto-item">
+            <img src="{% static 'img/productos/roscas.jpeg' %}" alt="Roscas">
+            <div class="producto-description">
+                <h3>Roscas</h3>
+                <p>El acompañante perfecto para tu café, con una textura crujiente y un sabor que te hará querer más. Un producto tradicional de nuestra bizcochería.</p>
+            </div>
+        </div>
+
+        <div class="producto-item">
+            <img src="{% static 'img/productos/Galletas Chocolate.jpeg' %}" alt="Galletas Chocolate">
+            <div class="producto-description">
+                <h3>Galletas de Chocolate</h3>
+                <p>El acompañante perfecto para tu café, con una textura crujiente y un sabor que te hará querer más. Un producto tradicional de nuestra bizcochería.</p>
+            </div>
+        </div>
     </div>
-    <div class="section" id="preguntas">
-        <h2>6. Preguntas Frecuentes</h2>
-        <h3>¿Puedo cancelar mi pedido?</h3>
-        <p>Sí, puedes cancelar tu pedido con al menos 24 horas de anticipación.</p>
-        <h3>¿Hacen envíos a domicilio?</h3>
-        <p>Sí, realizamos envíos a domicilio dentro de nuestra zona de cobertura.</p>
+
+    <div class="section" id="pedidos">
+        <h2>5. Cómo Hacer un Pedido</h2>
+        <p>Seguir estos pasos es fácil y rápido para realizar tu pedido en <strong>Bizcochería Sabrosuras Del Huila</strong>. A continuación, te explicamos el proceso paso a paso con imágenes para ayudarte a realizar tu compra sin problemas.</p>
+
+        <ol class="pedido-steps">
+            <li>
+                <h3>1. Visita nuestra página web</h3>
+                <p>Ingresa a nuestro sitio web desde cualquier dispositivo y explora nuestra variedad de productos deliciosos.</p>
+                <img src="{% static 'img/produ1.png' %}" alt="Paso 1: Página web">
+            </li>
+            <li>
+                <h3>2. Selecciona la categoría de productos</h3>
+                <p>Elige la categoría que más te guste, como bizcochos, galletas, roscas y otros productos horneados.</p>
+                <img src="{% static 'img/produ2.png' %}" alt="Paso 2: Selección de categoría">
+            </li>
+            <li>
+                <h3>3. Elige el producto deseado</h3>
+                <p>Escoge el producto que más te guste y haz clic en "Añadir al carrito".</p>
+                <img src="{% static 'img/produ3.png' %}" alt="Paso 3: Selección de producto">
+            </li>
+            <li>
+                <h3>4. Agrega al carrito de compras</h3>
+                <p>Una vez hayas seleccionado el producto, agrégalo al carrito para continuar con tu compra.</p>
+                <img src="{% static 'img/produ4.png' %}" alt="Paso 4: Añadir al carrito">
+            </li>
+            <li>
+                <h3>5. Completa tus datos de envío</h3>
+                <p>En la página de checkout, ingresa tus datos de envío para que podamos entregarte el pedido en la dirección correcta.</p>
+                <img src="{% static 'img/produ5.png' %}" alt="Paso 5: Datos de envío">
+            </li>
+            <li>
+                <h3>6. Selecciona el método de pago</h3>
+                <p>Elige el método de pago que prefieras (transferencia bancaria o efectivo a la entrega) y confirma tu pedido.</p>
+                <img src="{% static 'img/produ6.png' %}" alt="Paso 6: Método de pago">
+            </li>
+        </ol>
+
+        <p>Una vez confirmes tu pedido te llegara un factura electronica a tu correo para que tenga comprobante luego revisaremos si fue enviado el pago a los respectivas entidades bancarias, luego, nos encargaremos de prepararlo y enviártelo lo más pronto posible. ¡Y listo! Así de fácil es hacer tu pedido en <strong>Bizcochería Sabrosuras Del Huila</strong>.</p>
     </div>
-</div>
+
 {% endblock %}
 
 

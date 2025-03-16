@@ -12,75 +12,157 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Header principal con logo, contacto y usuario -->
-    <header>
-        <div class="container-hero">
-            <div class="container hero">
+    <!-- Header avanzado con efecto de scroll -->
+<header class="site-header">
+    <!-- Barra superior (se oculta al hacer scroll) -->
+    <div class="top-header">
+        <div class="container">
+            <div class="top-header-content">
+
                 
-                <!-- Soporte al cliente -->
-                <div class="customer-support">
-                    <i class="fa-solid fa-envelope"></i>
-                    <div class="content-customer-support">
-                        <span class="text"><a href="{% url 'contactanos' %}">Contáctanos aquí</a></span>
-                    </div>
-                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Barra principal (persistente con scroll) -->
+    <div class="main-header">
+        <div class="container">
+            <div class="main-header-content">
+
+                
                 <!-- Logo -->
-                <div class="container-logo">
-                    <h1 class="logo"><a href="/">Sabrosuras del Huila</a></h1>
+                <div class="logo-wrapper">
+                    <h1 class="site-logo">
+                        <a href="/">
+                            <span class="logo-text">Sabrosuras del Huila</span>
+                        </a>
+                    </h1>
                 </div>
 
-                <!-- Icono de usuario y saludo -->
-                <div class="container-user">
-                    {% if user.is_authenticated %}
-                        <!-- Menú desplegable del usuario -->
-                        <div class="user-dropdown">
-                            <i class="fa-solid fa-user-circle"></i>  
-                            <p>Bienvenido, {{ user.username }} 🖐🏽</p>
+                <!-- Navegación principal -->
+                <nav class="main-navigation" aria-label="Navegación principal">
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}#inicio" class="nav-link">
+                                <i class="fa-solid fa-home"></i>
+                                <span>Inicio</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}#Quienes" class="nav-link">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Quiénes somos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="{% url 'home' %}#Servicio" class="nav-link has-dropdown">
+                                <i class="fa-solid fa-list"></i>
+                                <span>Categorías</span>   
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}#Galeria" class="nav-link">
+                                <i class="fa-solid fa-store"></i>
+                                <span>Productos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'home' %}#ubi" class="nav-link">
+                                <i class="fa-solid fa-map-marker-alt"></i>
+                                <span>Ubicación</span>
+                            </a>
+                        </li>
+                        <li class="nav-item highlight">
+                            <a href="{% url 'contactanos' %}" class="nav-link contact-btn">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Contáctanos</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
 
-                            <!-- Menú desplegable -->
-                            <div class="dropdown-content">
-                                <a href="{% url 'logout' %}" class="logout-icon">
-                                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión
-                                </a>
-                                <a href="{% url 'manual_usuario' %}" target="_blank" class="manual-toggle">
-                                    <i class="fa-solid fa-book-open"></i> Manual de Usuario
-                                </a>
-                                
-                                </a>
-                                <div class="manual-content" style="display:none;">
-                                    <!-- Aquí puedes agregar el contenido del manual de usuario -->
+                <!-- Acciones de usuario -->
+                <div class="user-actions">
+
+
+
+                    <!-- Icono de usuario -->
+                    <div class="user-account">
+                        {% if user.is_authenticated %}
+                            <div class="user-account-trigger" id="user-toggle">
+                                <div class="user-avatar">
+                                    <i class="fa-solid fa-user-circle"></i>
+                                </div>
+                                <div class="user-info">
+                                    <span class="username">{{ user.username }}</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
                                 </div>
                             </div>
-                        </div>
-                    {% else %}
-                        <!-- Si el usuario no está autenticado -->
-                        <div class="user-login">
-                            <a href="{% url 'login' %}" class="login-link">
+                            <div class="user-menu">
+                                <div class="user-menu-header">
+                                    <div class="user-avatar large">
+                                        <i class="fa-solid fa-user-circle"></i>
+                                    </div>
+                                    <div class="user-details">
+                                        <span class="user-greeting">Hola,</span>
+                                        <span class="user-name">{{ user.username }}</span>
+                                    </div>
+                                </div>
+                                <div class="user-menu-items">
+                                    <a href="{% url 'manual_usuario' %}" class="user-menu-link">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>Manual de usuario</span>
+                                    </a>
+                                    <a href="{% url 'historial_compras' %}" class="user-menu-link">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>Historial de compras</span>
+                                    </a>
+                                    <a href="{% url 'logout' %}" class="user-menu-link logout">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        <span>Cerrar sesión</span>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="login-button">
                                 <i class="fa-solid fa-user"></i>
+                                <span>Iniciar sesión</span>
                             </a>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
+
+                    <!-- Botón de menú móvil -->
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-label="Menú">
+                        <span class="menu-bar"></span>
+                        <span class="menu-bar"></span>
+                        <span class="menu-bar"></span>
+                    </button>
                 </div>
             </div>
-
-            <!-- Ícono del Menú Hamburguesa (sin cambios) -->
-            <div class="menu-container">
-                <img class="hamburguer" src="{% static 'img/menu.png' %}">
-            </div>
-
-            <!-- Menú de navegación -->
-            <div class="container-navbar" >
-                <nav class="menu-navegacion">
-                    <a href="#inicio">Inicio</a>
-                    <a href="#Quienes">Quiénes somos</a>
-                    <a href="#Servicio">Categorías</a>
-                    <a href="#Galeria">Productos</a>
-                    <a href="#ubi">Ubicación</a>
-                </nav>
-            </div> 
         </div>
-    </header>
+    </div>
+
+    <!-- Panel de búsqueda (se muestra/oculta) -->
+    <div class="search-panel" id="search-panel">
+        <div class="container">
+            <form class="search-form" action="/buscar" method="get">
+                <input type="text" name="q" placeholder="¿Qué estás buscando?" class="search-input">
+                <button type="submit" class="search-button">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </form>
+            <button class="search-close" id="search-close">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay para cuando se activan menús móviles -->
+<div class="site-overlay" id="site-overlay"></div>
+    
 
     <main>
         {% block content %}
