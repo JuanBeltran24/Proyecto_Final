@@ -12,156 +12,141 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Header avanzado con efecto de scroll -->
-<header class="site-header">
-    <!-- Barra superior (se oculta al hacer scroll) -->
-    <div class="top-header">
-        <div class="container">
-            <div class="top-header-content">
-
-                
+      <!-- Header avanzado con efecto de scroll -->
+      <header class="site-header">
+        <!-- Barra superior (se oculta al hacer scroll) -->
+        <div class="top-header">
+            <div class="container">
+                <div class="top-header-content">
+    
+                    
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Barra principal (persistente con scroll) -->
-    <div class="main-header">
-        <div class="container">
-            <div class="main-header-content">
-
-                
-                <!-- Logo -->
-                <div class="logo-wrapper">
-                    <h1 class="site-logo">
-                        <a href="/">
-                            <span class="logo-text">Sabrosuras del Huila</span>
-                        </a>
-                    </h1>
-                </div>
-
-                <!-- Navegación principal -->
-                <nav class="main-navigation" aria-label="Navegación principal">
-                    <ul class="nav-menu">
-                        <li class="nav-item">
-                            <a href="{% url 'home' %}#inicio" class="nav-link">
-                                <i class="fa-solid fa-home"></i>
-                                <span>Inicio</span>
+    
+        <!-- Barra principal (persistente con scroll) -->
+        <div class="main-header">
+            <div class="container">
+                <div class="main-header-content">
+    
+                    
+                    <!-- Logo -->
+                    <div class="logo-wrapper">
+                        <h1 class="site-logo">
+                            <a href="/">
+                                <span class="logo-text">Sabrosuras del Huila</span>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'home' %}#Quienes" class="nav-link">
-                                <i class="fa-solid fa-users"></i>
-                                <span>Quiénes somos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="{% url 'home' %}#Servicio" class="nav-link has-dropdown">
-                                <i class="fa-solid fa-list"></i>
-                                <span>Categorías</span>   
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'home' %}#Galeria" class="nav-link">
-                                <i class="fa-solid fa-store"></i>
-                                <span>Productos</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'home' %}#ubi" class="nav-link">
-                                <i class="fa-solid fa-map-marker-alt"></i>
-                                <span>Ubicación</span>
-                            </a>
-                        </li>
-                        <li class="nav-item highlight">
-                            <a href="{% url 'contactanos' %}" class="nav-link contact-btn">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                <span>Contáctanos</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                
-
-                <!-- Acciones de usuario -->
-                <div class="user-actions">
-
-
-
-                    <!-- Icono de usuario -->
-                    <div class="user-account">
-                        {% if user.is_authenticated %}
-                            <div class="user-account-trigger" id="user-toggle">
-                                <div class="user-avatar">
-                                    <i class="fa-solid fa-user-circle"></i>
-                                </div>
-                                <div class="user-info">
-                                    <span class="username">{{ user.username }}</span>
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </div>
-                            </div>
-                            <div class="user-menu">
-                                <div class="user-menu-header">
-                                    <div class="user-avatar large">
+                        </h1>
+                    </div>
+    
+                    <!-- Navegación principal -->
+                    <nav class="main-navigation" aria-label="Navegación principal">
+                        <ul class="nav-menu">
+                            <li class="nav-item">
+                                <a href="{% url 'home' %}#inicio" class="nav-link">
+                                    <i class="fa-solid fa-home"></i>
+                                    <span>Inicio</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'home' %}#Quienes" class="nav-link">
+                                    <i class="fa-solid fa-users"></i>
+                                    <span>Quiénes somos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="{% url 'home' %}#Servicio" class="nav-link has-dropdown">
+                                    <i class="fa-solid fa-list"></i>
+                                    <span>Categorías</span>   
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'home' %}#Galeria" class="nav-link">
+                                    <i class="fa-solid fa-store"></i>
+                                    <span>Productos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'home' %}#ubi" class="nav-link">
+                                    <i class="fa-solid fa-map-marker-alt"></i>
+                                    <span>Ubicación</span>
+                                </a>
+                            </li>
+                            <li class="nav-item highlight">
+                                <a href="{% url 'contactanos' %}" class="nav-link contact-btn">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    <span>Contáctanos</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    
+    
+                    <!-- Acciones de usuario -->
+                    <div class="user-actions">
+    
+    
+    
+                        <!-- Icono de usuario -->
+                        <div class="user-account">
+                            {% if user.is_authenticated %}
+                                <div class="user-account-trigger" id="user-toggle">
+                                    <div class="user-avatar">
                                         <i class="fa-solid fa-user-circle"></i>
                                     </div>
-                                    <div class="user-details">
-                                        <span class="user-greeting">Hola,</span>
-                                        <span class="user-name">{{ user.username }}</span>
+                                    <div class="user-info">
+                                        <span class="username">{{ user.username }}</span>
+                                        <i class="fa-solid fa-chevron-down"></i>
                                     </div>
                                 </div>
-                                <div class="user-menu-items">
-                                    <a href="{% url 'manual_usuario' %}" class="user-menu-link">
-                                        <i class="fa-solid fa-book-open"></i>
-                                        <span>Manual de usuario</span>
-                                    </a>
-                                    <a href="{% url 'historial_compras' %}" class="user-menu-link">
-                                        <i class="fa-solid fa-book-open"></i>
-                                        <span>Historial de compras</span>
-                                    </a>
-                                    <a href="{% url 'logout' %}" class="user-menu-link logout">
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-                                        <span>Cerrar sesión</span>
-                                    </a>
-                                    
+                                <div class="user-menu">
+                                    <div class="user-menu-header">
+                                        <div class="user-avatar large">
+                                            <i class="fa-solid fa-user-circle"></i>
+                                        </div>
+                                        <div class="user-details">
+                                            <span class="user-greeting">Hola,</span>
+                                            <span class="user-name">{{ user.username }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="user-menu-items">
+                                        <a href="{% url 'manual_usuario' %}" class="user-menu-link">
+                                            <i class="fa-solid fa-book-open"></i>
+                                            <span>Manual de usuario</span>
+                                        </a>
+                                        <a href="{% url 'historial_compras' %}" class="user-menu-link">
+                                            <i class="fa-solid fa-book-open"></i>
+                                            <span>Historial de compras</span>
+                                        </a>
+                                        <a href="{% url 'logout' %}" class="user-menu-link logout">
+                                            <i class="fa-solid fa-right-from-bracket"></i>
+                                            <span>Cerrar sesión</span>
+                                        </a>
+                                        
+                                    </div>
                                 </div>
-                            </div>
-                        {% else %}
-                            <a href="{% url 'login' %}" class="login-button">
-                                <i class="fa-solid fa-user"></i>
-                                <span>Iniciar sesión</span>
-                            </a>
-                        {% endif %}
+                            {% else %}
+                                <a href="{% url 'login' %}" class="login-button">
+                                    <i class="fa-solid fa-user"></i>
+                                    <span>Iniciar sesión</span>
+                                </a>
+                            {% endif %}
+                        </div>
+    
+                        <!-- Botón de menú móvil -->
+                        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-label="Menú">
+                            <span class="menu-bar"></span>
+                            <span class="menu-bar"></span>
+                            <span class="menu-bar"></span>
+                        </button>
                     </div>
-
-                    <!-- Botón de menú móvil -->
-                    <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-expanded="false" aria-label="Menú">
-                        <span class="menu-bar"></span>
-                        <span class="menu-bar"></span>
-                        <span class="menu-bar"></span>
-                    </button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Panel de búsqueda (se muestra/oculta) -->
-    <div class="search-panel" id="search-panel">
-        <div class="container">
-            <form class="search-form" action="/buscar" method="get">
-                <input type="text" name="q" placeholder="¿Qué estás buscando?" class="search-input">
-                <button type="submit" class="search-button">
-                    <i class="fa-solid fa-search"></i>
-                </button>
-            </form>
-            <button class="search-close" id="search-close">
-                <i class="fa-solid fa-times"></i>
-            </button>
-        </div>
-    </div>
-</header>
-
-<!-- Overlay para cuando se activan menús móviles -->
-<div class="site-overlay" id="site-overlay"></div>
+    </header>
+    
+    <!-- Overlay para cuando se activan menús móviles -->
+    <div class="site-overlay" id="site-overlay"></div>
     
 
     <main>
