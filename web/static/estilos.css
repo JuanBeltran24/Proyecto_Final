@@ -3233,9 +3233,9 @@ input::placeholder {
     }
 }
 
-/* ** /
-/               FOOTER               /
-/ ** */
+
+/* /               FOOTER               / */
+
 
 .footer {
     background-color:  #5D4037; /* Café oscuro */
@@ -3357,6 +3357,25 @@ input::placeholder {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     background-color: #5D4037; /* Café claro */
+    animation: floatAndRotate 4s infinite ease-in-out; /* Animación continua */
+}
+
+@keyframes floatAndRotate {
+    0% {
+        transform: translateY(0) rotate(0deg); /* Inicio: sin movimiento */
+    }
+    25% {
+        transform: translateY(-10px) rotate(10deg); /* Flotar hacia arriba y rotar */
+    }
+    50% {
+        transform: translateY(0) rotate(0deg); /* Volver a la posición inicial */
+    }
+    75% {
+        transform: translateY(-10px) rotate(-10deg); /* Flotar hacia arriba y rotar en sentido contrario */
+    }
+    100% {
+        transform: translateY(0) rotate(0deg); /* Volver a la posición inicial */
+    }
 }
 
 .social-icons a i {
@@ -3471,7 +3490,6 @@ input::placeholder {
         gap: 1rem;
     }
 }
-
 
 /* ********************************** */
 /*       MEDIA QUERIES -- 768px       */
