@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -75,8 +78,8 @@ WSGI_APPLICATION = 'sitio.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': env('DB_ENGINE'),
+        'NAME': BASE_DIR / env('DB_NAME'),
     }
 }
 
@@ -126,17 +129,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Configuración de mensajes en sesiones
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
-# Ruta de redirección para usuarios no autenticados
-# LOGIN_URL = '/login/'  # Ajusta esto a la URL de tu vista de inicio de sesión**
+import os
+from dotenv import load_dotenv
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False  # IMPORTANTE: No usar TLS y SSL al mismo tiempo
-EMAIL_HOST_USER = "sabrosurashuila@gmail.com"
-EMAIL_HOST_PASSWORD = "nzejmwljfmcqlnif"  # Asegúrate de que es la contraseña correcta
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Para evitar problemas de remitente
+# Cargar variables de entorno
+load_dotenv()
+
+# Configuración de correo electrónico
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 
 
