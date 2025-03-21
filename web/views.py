@@ -226,36 +226,41 @@ def contactanos(request):
         return render(request, "contactanos.html", {"message_sent": True})
 
     return render(request, "contactanos.html")
-
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.conf import settings
-from django.shortcuts import render
 import json
-from web.models import HistorialCompra  # Asegúrate de importar tu modelo
+from web.models import HistorialCompra
 
 def enviar_correo_confirmacion(request):
     if request.method == "POST":
         try:
             # Cargar los datos del cuerpo de la solicitud
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode("utf-8"))
 
             # Verificar qué datos está recibiendo Django
             print("Datos recibidos en el backend:", data)
 
-            email_cliente = data.get("email")
-            nombre = data.get("nombre", "")
-            apellido = data.get("apellido", "")
-            celular = data.get("celular", "")
-            municipio = data.get("municipio", "")
-            residencia = data.get("residencia", "")
-            productos = data.get("productos", "No especificado")
-            metodo_pago = data.get("metodo_pago", "No especificado")
-            total = data.get("total", "0")
+            email_cliente = data.get("email", "").strip()
+            nombre = data.get("nombre", "").strip()
+            apellido = data.get("apellido", "").strip()
+            celular = data.get("celular", "").strip()
+            municipio = data.get("municipio", "").strip()
+            residencia = data.get("residencia", "").strip()
+            metodo_pago = data.get("metodo_pago", "No especificado").strip()
+            total = float(data.get("total", 0))  # Convertir total a número
 
             # Verificar si el email del cliente está vacío
             if not email_cliente:
                 return JsonResponse({"error": "No se recibió el email del cliente"}, status=400)
+
+            # Convertir productos en lista si es un string
+            productos = data.get("productos", [])
+            if isinstance(productos, str):
+                productos = productos.split(" - ")
+
+            # Formatear productos en lista con "✔️"
+            productos_lista = "".join(f"<li>✔️ {producto}</li>" for producto in productos)
 
             # Guardar historial de compra en la base de datos
             try:
@@ -266,7 +271,7 @@ def enviar_correo_confirmacion(request):
                     celular=celular,
                     municipio=municipio,
                     residencia=residencia,
-                    productos=productos,
+                    productos=json.dumps(productos, ensure_ascii=False),
                     metodo_pago=metodo_pago,
                     total=total
                 )
@@ -283,6 +288,9 @@ def enviar_correo_confirmacion(request):
             elif metodo_pago == "Daviplata":
                 qr_imagen = "https://i.imgur.com/4ZDJQ7N.jpeg"
 
+            # Formatear total con separador de miles
+            total_formateado = f"${total:,.0f}".replace(",", ".")
+
             # Construcción del mensaje en HTML para el cliente
             mensaje_html_cliente = f"""
             <html>
@@ -291,8 +299,10 @@ def enviar_correo_confirmacion(request):
                     <h2 style="color: #FF5733; font-size: 36px; margin-bottom: 20px; text-align: center;">¡Gracias por tu compra, {nombre} {apellido}!</h2>
                     <p style="font-size: 18px; line-height: 1.6;">Aquí tienes los detalles de tu compra:</p>
                     <h3 style="color: #FF5733; font-size: 22px;">📌 Productos comprados:</h3>
-                    <pre style="background-color: #f8f8f8; padding: 10px; border-left: 4px solid #FF5733; font-size: 18px; color: #333;">{productos}</pre>
-                    <h3 style="color: #FF5733; font-size: 22px;">💰 Total: ${total}</h3>
+                    <ul style="background-color: #f8f8f8; padding: 10px; border-left: 4px solid #FF5733; font-size: 18px; color: #333; list-style: none;">
+                        {productos_lista}
+                    </ul>
+                    <h3 style="color: #FF5733; font-size: 22px;">💰 Total: {total_formateado}</h3>
                     <h3 style="color: #FF5733; font-size: 22px;">📢 Método de pago: {metodo_pago}</h3>
                     <h3 style="color: #FF5733; font-size: 22px;">📍 Datos del comprador:</h3>
                     <ul style="font-size: 18px; color: #555;">
@@ -316,13 +326,26 @@ def enviar_correo_confirmacion(request):
             </html>
             """
 
-            # Construcción del mensaje en HTML para el administrador (sin QR)
-            mensaje_html_admin = mensaje_html_cliente.replace("¡Gracias por tu compra, {nombre} {apellido}!", "Nueva compra realizada")
+            # Construcción del mensaje en HTML para el administrador
+            mensaje_html_admin = f"""
+            <html>
+            <body style="font-family: Arial, sans-serif; color: #333; background-color: #f4f4f9; padding: 30px;">
+                <div style="background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 700px; margin: auto;">
+                    <h2 style="color: #FF5733; font-size: 36px; margin-bottom: 20px; text-align: center;">Nueva compra realizada</h2>
+                    <p style="font-size: 18px; line-height: 1.6;">Detalles de la compra:</p>
+                    <ul style="background-color: #f8f8f8; padding: 10px; border-left: 4px solid #FF5733; font-size: 18px; color: #333; list-style: none;">
+                        {productos_lista}
+                    </ul>
+                    <h3 style="color: #FF5733; font-size: 22px;">💰 Total: {total_formateado}</h3>
+                    <h3 style="color: #FF5733; font-size: 22px;">📢 Método de pago: {metodo_pago}</h3>
+                </div>
+            </body>
+            </html>
+            """
 
             # Enviar correos
-            remitente = settings.EMAIL_HOST_USER
-            send_mail("Confirmación de compra", "", remitente, [email_cliente], fail_silently=False, html_message=mensaje_html_cliente)
-            send_mail("Nueva compra realizada", "", remitente, ["sabrosurashuila@gmail.com"], fail_silently=False, html_message=mensaje_html_admin)
+            send_mail("Confirmación de compra", "", settings.EMAIL_HOST_USER, [email_cliente], fail_silently=False, html_message=mensaje_html_cliente)
+            send_mail("Nueva compra realizada", "", settings.EMAIL_HOST_USER, ["sabrosurashuila@gmail.com"], fail_silently=False, html_message=mensaje_html_admin)
 
             return JsonResponse({"mensaje": "Compra registrada y correo enviado correctamente"})
 
@@ -330,15 +353,21 @@ def enviar_correo_confirmacion(request):
             print(f"Error en el envío de correo: {e}")
             return JsonResponse({"error": str(e)}, status=400)
 
+
+from django.shortcuts import render
 from django.utils.dateparse import parse_date
-from django.db.models import Q
+from web.models import HistorialCompra
+import json
 
 def historial_compras(request):
     historial = HistorialCompra.objects.all().order_by('-fecha')
 
     # Procesar productos para evitar errores en la plantilla
     for compra in historial:
-        compra.productos_lista = compra.productos.split(',') if compra.productos else []
+        try:
+            compra.productos_lista = json.loads(compra.productos)  # Convertir JSON a lista
+        except json.JSONDecodeError:
+            compra.productos_lista = []
 
     # Obtener el parámetro de fecha desde la URL
     fecha_filtrada = request.GET.get('fecha')
@@ -349,7 +378,6 @@ def historial_compras(request):
             historial = historial.filter(fecha__date=fecha_filtrada)
 
     return render(request, 'historial_compras.html', {'historial': historial})
-
 
 
 
