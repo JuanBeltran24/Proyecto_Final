@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Registro</title>
     <link rel="stylesheet" href="{% static 'registro.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <section class="form-register">
         <h4>Formulario de Registro</h4>
 
-      
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -21,50 +21,148 @@
             </div>
         {% endif %}
 
-
-       
         <form method="POST">
             {% csrf_token %}
 
-       
             <div class="form-group">
                 <div class="input-box">
-                    {{ form.username.label_tag }} 
-                    {{ form.username }}  
+                    <label for="id_username">Nombre de usuario:</label> 
+                    <input type="text" name="username" value="{{ form.username.value|default_if_none:'' }}" class="form-control" required id="id_username">
                 </div>
                 <div class="input-box">
-                    {{ form.email.label_tag }} 
-                    {{ form.email }}  
+                    <label for="id_email">Correo electrónico:</label> 
+                    <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}" class="form-control" required id="id_email">
+                </div>
+                <div class="input-box password-container">
+                    <label for="id_password1">Contraseña:</label> 
+                    <div class="password-field">
+                        <input type="password" name="password1" value="{{ form.password1.value|default_if_none:'' }}" class="form-control" required id="id_password1">
+                        <button type="button" class="toggle-password" onclick="togglePassword('id_password1')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <ul class="password-requirements" id="password-requirements">
+                        <li data-requirement="length">Mínimo 8 caracteres</li>
+                        <li data-requirement="number">Al menos un número</li>
+                        <li data-requirement="uppercase">Al menos una mayúscula</li>
+                    </ul>
                 </div>
                 <div class="input-box">
-                    {{ form.password1.label_tag }} 
-                    {{ form.password1 }} 
-                </div>
-                <div class="input-box">
-                    {{ form.password2.label_tag }} 
-                    {{ form.password2 }}  
+                    <label for="id_password2">Confirmación de contraseña:</label> 
+                    <div class="password-field">
+                        <input type="password" name="password2" value="{{ form.password2.value|default_if_none:'' }}" class="form-control" required id="id_password2">
+                        <button type="button" class="toggle-password" onclick="togglePassword('id_password2')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-match" id="password-match"></div>
                 </div>
             </div>
 
-        
             <div class="terms">
                 <input type="checkbox" id="terms" required>
                 <label for="terms">Estoy de acuerdo con <a href="#">Términos y Condiciones</a></label>
             </div>
 
-        
             <input class="botons" type="submit" value="Registrar">
 
-           
             <div class="login-link">
                 <a href="{% url 'login' %}">¿Ya tienes cuenta? Inicia sesión</a>
-
             </div>
         </form>
     </section>
+
+    <script>
+        // Mostrar/ocultar contraseña
+        function togglePassword(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.querySelector(`button[onclick="togglePassword('${fieldId}')"] i`);
+            if (field.type === "password") {
+                field.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+                icon.style.color = "#d4a017";
+            } else {
+                field.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+                icon.style.color = "#8b6f21";
+            }
+        }
+
+        // Validación de contraseña en tiempo real
+        const password1 = document.getElementById('id_password1');
+        const password2 = document.getElementById('id_password2');
+        const requirements = document.getElementById('password-requirements');
+        const matchMessage = document.getElementById('password-match');
+
+        // Inicializar validación si hay valores al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (password1.value) {
+                requirements.style.display = 'block';
+                validatePasswordRequirements(password1.value);
+            }
+            if (password1.value && password2.value) {
+                checkPasswordMatch();
+            }
+        });
+
+        password1.addEventListener('focus', function() {
+            requirements.style.display = 'block';
+        });
+
+        password1.addEventListener('blur', function() {
+            if (password1.value === '') {
+                requirements.style.display = 'none';
+            }
+        });
+
+        password1.addEventListener('input', function() {
+            validatePasswordRequirements(this.value);
+            if (password2.value) {
+                checkPasswordMatch();
+            }
+        });
+
+        password2.addEventListener('input', checkPasswordMatch);
+
+        function validatePasswordRequirements(value) {
+            // Validar longitud
+            toggleRequirementClass('length', value.length >= 8);
+            
+            // Validar número
+            toggleRequirementClass('number', /\d/.test(value));
+            
+            // Validar mayúscula
+            toggleRequirementClass('uppercase', /[A-Z]/.test(value));
+            
+            // Validar carácter especial
+            toggleRequirementClass('special', /[!@#$%^&*(),.?":{}|<>]/.test(value));
+        }
+
+        function toggleRequirementClass(requirement, isValid) {
+            const element = document.querySelector(`[data-requirement="${requirement}"]`);
+            if (isValid) {
+                element.classList.add('valid');
+            } else {
+                element.classList.remove('valid');
+            }
+        }
+
+        function checkPasswordMatch() {
+            if (password1.value && password2.value) {
+                if (password1.value === password2.value) {
+                    matchMessage.textContent = '✓ Las contraseñas coinciden';
+                    matchMessage.classList.remove('invalid');
+                    matchMessage.classList.add('valid');
+                } else {
+                    matchMessage.textContent = '✗ Las contraseñas no coinciden';
+                    matchMessage.classList.remove('valid');
+                    matchMessage.classList.add('invalid');
+                }
+            } else {
+                matchMessage.textContent = '';
+                matchMessage.classList.remove('valid', 'invalid');
+            }
+        }
+    </script>
 </body>
 </html>
-
- 
-
- 

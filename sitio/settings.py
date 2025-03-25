@@ -127,7 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # Ruta de redirección para usuarios no autenticados
-# LOGIN_URL = '/login/'  # Ajusta esto a la URL de tu vista de inicio de sesión**
+LOGIN_URL = '/login/'  # Ajusta esto a la URL de tu vista de inicio de sesión**
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"

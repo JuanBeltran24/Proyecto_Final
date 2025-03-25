@@ -2355,10 +2355,8 @@ input::placeholder {
 /* Productos en el carrito (derecha) */
 #productos-pago {
     flex: 1;
-    background: #fff8f0;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(255, 94, 98, 0.1);
     
 }
 
@@ -2394,14 +2392,6 @@ input::placeholder {
 #productos-pago ul li:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-#productos-pago {
-    flex: 1;
-    background: #fff8f0;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(255, 94, 98, 0.1);
 }
 
 #total-pago h3 {

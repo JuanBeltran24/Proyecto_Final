@@ -27,15 +27,21 @@ function ready() {
         boton.addEventListener('click', restarCantidad);
     });
 
-    // Evento para agregar productos al carrito
+    // Evento para agregar productos al carrito con verificación de autenticación
     document.querySelectorAll('.agregar-carrito').forEach(boton => {
-        boton.addEventListener('click', agregarAlCarritoClicked);
+        boton.addEventListener('click', function(event) {
+            verificarAutenticacion(() => {
+                agregarAlCarritoClicked(event);
+            });
+        });
     });
 
-    // Evento para mostrar el modal de pago
+    // Evento para mostrar el modal de pago con verificación de autenticación
     let botonPagar = document.getElementById('btn-pagar');
     if (botonPagar) {
-        botonPagar.addEventListener('click', mostrarModalPago);
+        botonPagar.addEventListener('click', function() {
+            verificarAutenticacion(mostrarModalPago);
+        });
     }
 
     // Eventos para los métodos de pago
@@ -62,6 +68,180 @@ function ready() {
 
     // Evento para confirmar el pago
     document.getElementById("confirmarPago").addEventListener("click", confirmarPago);
+}
+
+// Función para verificar autenticación
+function verificarAutenticacion(callback) {
+    fetch('/verificar-autenticacion/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la red');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.autenticado) {
+                callback();
+            } else {
+                mostrarMensajeNoAutenticado();
+            }
+        })
+        .catch(error => {
+            console.error('Error al verificar autenticación:', error);
+            mostrarMensajeNoAutenticado();
+        });
+}
+
+// Función para mostrar mensaje cuando no está autenticado
+function mostrarMensajeNoAutenticado() {
+    const mensajeError = document.createElement('div');
+    mensajeError.className = 'mensaje-error';
+    mensajeError.innerHTML = `
+        <div class="mensaje-contenido">
+            <i class="fa-solid fa-circle-exclamation" style="font-size: 48px; margin-bottom: 15px;"></i>
+            <h3>¡Debes iniciar sesión!</h3>
+            <p>Para realizar compras, necesitas estar autenticado.</p>
+            <div class="botones-error">
+                <button id="ir-login">Ir a Iniciar Sesión</button>
+                <button id="cerrar-error">Cerrar</button>
+            </div>
+        </div>
+    `;
+    
+    // Estilos
+    mensajeError.style.position = 'fixed';
+    mensajeError.style.top = '50%';
+    mensajeError.style.left = '50%';
+    mensajeError.style.transform = 'translate(-50%, -50%)';
+    mensajeError.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+    mensajeError.style.borderRadius = '12px';
+    mensajeError.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+    mensajeError.style.zIndex = '1000';
+    mensajeError.style.textAlign = 'center';
+    mensajeError.style.padding = '30px 40px';
+    mensajeError.style.minWidth = '300px';
+    mensajeError.style.maxWidth = '450px';
+    mensajeError.style.backdropFilter = 'blur(10px)';
+    mensajeError.style.border = '1px solid rgba(220, 220, 220, 0.5)';
+    
+    // Estilos para elementos internos
+    const contenido = mensajeError.querySelector('.mensaje-contenido');
+    contenido.style.display = 'flex';
+    contenido.style.flexDirection = 'column';
+    contenido.style.alignItems = 'center';
+    
+    const icon = mensajeError.querySelector('i');
+    icon.style.color = '#ff3333';
+    
+    const title = mensajeError.querySelector('h3');
+    title.style.color = '#333';
+    title.style.fontSize = '24px';
+    title.style.margin = '10px 0';
+    title.style.fontWeight = '600';
+    
+    const paragraphs = mensajeError.querySelectorAll('p');
+    paragraphs.forEach(p => {
+        p.style.color = '#555';
+        p.style.margin = '5px 0';
+        p.style.fontSize = '16px';
+    });
+    
+    const botones = mensajeError.querySelector('.botones-error');
+    botones.style.display = 'flex';
+    botones.style.gap = '10px';
+    botones.style.marginTop = '20px';
+    
+    const botonLogin = mensajeError.querySelector('#ir-login');
+    botonLogin.style.padding = '10px 25px';
+    botonLogin.style.backgroundColor = '#ff3333';
+    botonLogin.style.color = 'white';
+    botonLogin.style.border = 'none';
+    botonLogin.style.borderRadius = '30px';
+    botonLogin.style.cursor = 'pointer';
+    botonLogin.style.fontSize = '16px';
+    botonLogin.style.fontWeight = '500';
+    botonLogin.style.transition = 'all 0.3s ease';
+    
+    const botonCerrar = mensajeError.querySelector('#cerrar-error');
+    botonCerrar.style.padding = '10px 25px';
+    botonCerrar.style.backgroundColor = '#e0e0e0';
+    botonCerrar.style.color = '#333';
+    botonCerrar.style.border = 'none';
+    botonCerrar.style.borderRadius = '30px';
+    botonCerrar.style.cursor = 'pointer';
+    botonCerrar.style.fontSize = '16px';
+    botonCerrar.style.fontWeight = '500';
+    botonCerrar.style.transition = 'all 0.3s ease';
+    
+    // Efectos hover
+    botonLogin.onmouseover = function() {
+        this.style.backgroundColor = '#ff3333';
+        this.style.transform = 'scale(1.05)';
+    };
+    botonLogin.onmouseout = function() {
+        this.style.backgroundColor = '#ff3333)';
+        this.style.transform = 'scale(1)';
+    };
+    
+    botonCerrar.onmouseover = function() {
+        this.style.backgroundColor = '#d0d0d0';
+        this.style.transform = 'scale(1.05)';
+    };
+    botonCerrar.onmouseout = function() {
+        this.style.backgroundColor = '#e0e0e0';
+        this.style.transform = 'scale(1)';
+    };
+    
+    // Agregar mensaje al cuerpo del documento
+    document.body.appendChild(mensajeError);
+    
+    // Agregar overlay de fondo
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '999';
+    document.body.appendChild(overlay);
+    
+    // Efecto de entrada
+    mensajeError.style.opacity = '0';
+    mensajeError.style.transform = 'translate(-50%, -60%)';
+    setTimeout(() => {
+        mensajeError.style.transition = 'all 0.5s ease';
+        mensajeError.style.opacity = '1';
+        mensajeError.style.transform = 'translate(-50%, -50%)';
+    }, 10);
+    
+    // Eventos para los botones
+    botonLogin.addEventListener('click', function() {
+        window.location.href = '/login/?next=' + encodeURIComponent(window.location.pathname);
+    });
+    
+    botonCerrar.addEventListener('click', function() {
+        cerrarMensajeError(mensajeError, overlay);
+    });
+    
+    overlay.addEventListener('click', function() {
+        cerrarMensajeError(mensajeError, overlay);
+    });
+}
+
+function cerrarMensajeError(mensaje, overlay) {
+    mensaje.style.opacity = '0';
+    mensaje.style.transform = 'translate(-50%, -40%)';
+    overlay.style.opacity = '0';
+    
+    setTimeout(() => {
+        if (document.body.contains(mensaje)) {
+            mensaje.remove();
+        }
+        if (document.body.contains(overlay)) {
+            overlay.remove();
+        }
+    }, 500);
 }
 
 // Función para mostrar el mensaje de éxito con estilos mejorados
@@ -275,7 +455,7 @@ function confirmarPago() {
 
     // Obtener el total
     let totalElemento = document.getElementById("monto-total");
-    let total = totalElemento ? totalElemento.innerText.replace(/[^0-9]/g, "") : "0";
+    let total = totalElemento ? parseInt(totalElemento.innerText.replace(/[^0-9]/g, "")) : "0";
 
     // Enviar los datos al backend
     fetch("/enviar-correo/", {
@@ -302,9 +482,6 @@ function confirmarPago() {
         document.getElementById("spinner").style.display = "none";
 
         if (data.mensaje) {
-            // Eliminamos el alert original
-            // alert("Pago confirmado. La factura ha sido enviada.");
-            
             document.querySelector(".carrito-items").innerHTML = ""; // Vaciar el carrito
             actualizarTotalCarrito();
             cerrarModal();

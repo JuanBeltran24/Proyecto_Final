@@ -9,3 +9,8 @@ from .models import MensajeContacto
 
 admin.site.register(MensajeContacto)
 
+
+
+from .models import PerfilUsuario
+
+admin.site.register(PerfilUsuario)

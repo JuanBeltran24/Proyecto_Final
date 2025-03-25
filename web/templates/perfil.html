@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'perfil.css'%}">
+<div class="profile-container">
+    <div class="profile-header">
+        <h2 class="profile-title">Editar Perfil</h2>
+        <p class="profile-subtitle">Actualiza tu información personal</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="profile-form">
+        {% csrf_token %}
+
+        <div class="profile-grid">
+            <!-- Sección de información básica -->
+            <div class="profile-section profile-info-section">
+                <h3 class="section-title">Información Básica</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Nombre de Usuario</label>
+                    <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                </div>
+            </div>
+
+            <!-- Sección de foto de perfil -->
+            <div class="profile-section profile-picture-section">
+                <h3 class="section-title">Foto de Perfil</h3>
+                
+                <div class="profile-picture-container">
+                    {% if user.perfilusuario.foto_perfil %}
+                        <img src="{{ user.perfilusuario.foto_perfil.url }}" alt="Foto de Perfil" class="profile-picture">
+                    {% else %}
+                        <div class="profile-picture-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="file-upload-wrapper">
+                        <label class="file-upload-label">
+                            <span class="file-upload-button">Seleccionar Imagen</span>
+                            <input type="file" class="file-upload-input" name="foto_perfil" accept="image/*">
+                        </label>
+                        <span class="file-upload-name">Ningún archivo seleccionado</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de ubicación -->
+            <div class="profile-section profile-location-section">
+                <h3 class="section-title">Ubicación</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Dirección</label>
+                    <input type="text" class="form-control" name="direccion" value="{{ form.direccion.value }}" placeholder="Ingresa tu dirección">
+                </div>
+
+                <div class="location-grid">
+                    <div class="form-group">
+                        <label class="form-label">Departamento</label>
+                        <input type="text" class="form-control" name="departamento" value="{{ form.departamento.value }}" placeholder="Departamento">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Municipio</label>
+                        <input type="text" class="form-control" name="municipio" value="{{ form.municipio.value }}" placeholder="Municipio">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-save">Guardar Cambios</button>
+            <a href="#" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Actualizar nombre del archivo al seleccionarlo
+    const fileInput = document.querySelector('.file-upload-input');
+    const fileNameDisplay = document.querySelector('.file-upload-name');
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                fileNameDisplay.textContent = this.files[0].name;
+                
+                // Mostrar previsualización de imagen
+                const reader = new FileReader();
+                const profilePicture = document.querySelector('.profile-picture');
+                const placeholder = document.querySelector('.profile-picture-placeholder');
+                
+                reader.onload = function(e) {
+                    if (placeholder) {
+                        placeholder.style.display = 'none';
+                    }
+                    
+                    if (!profilePicture) {
+                        const newImg = document.createElement('img');
+                        newImg.src = e.target.result;
+                        newImg.alt = 'Foto de Perfil';
+                        newImg.className = 'profile-picture';
+                        document.querySelector('.profile-picture-container').prepend(newImg);
+                    } else {
+                        profilePicture.src = e.target.result;
+                    }
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+    
+    // Efecto de carga para el botón de guardar
+    const saveButton = document.querySelector('.btn-save');
+    if (saveButton) {
+        saveButton.addEventListener('click', function(e) {
+            if (!this.classList.contains('loading')) {
+                this.classList.add('loading');
+                const originalText = this.innerHTML;
+                this.innerHTML = `
+                    <span class="spinner">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                    </span>
+                    Guardando...
+                `;
+                
+                // Simular tiempo de guardado
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                    this.innerHTML = `
+                        <i class="fas fa-check"></i>
+                        Guardado con éxito
+                    `;
+                    
+                    // Restaurar después de 2 segundos
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                }, 1500);
+            }
+        });
+    }
+    
+    // Efecto hover para las secciones
+    const sections = document.querySelectorAll('.profile-section');
+    sections.forEach(section => {
+        section.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        section.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

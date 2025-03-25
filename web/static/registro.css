@@ -16,8 +16,6 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
-
-
 .form-register {
   width: 420px;
   background: rgba(255, 250, 205, 0.95);
@@ -26,9 +24,7 @@ body {
   box-shadow: 5px 8px 25px rgba(0, 0, 0, 0.3);
   text-align: center;
   border: 2px solid #f4c542; 
-  
 }
-
 
 .form-register h4 {
   font-size: 28px;
@@ -41,7 +37,6 @@ body {
   letter-spacing: 1.5px;
 }
 
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -49,11 +44,11 @@ body {
   margin-bottom: 30px;
 }
 
-
 .input-box {
   display: flex;
   flex-direction: column;
   text-align: left;
+  position: relative;
 }
 
 .input-box label {
@@ -65,6 +60,7 @@ body {
 .input-box input {
   width: 100%;
   padding: 14px;
+  padding-right: 40px;
   border-radius: 10px;
   border: 1px solid #e1b12c;
   font-size: 16px;
@@ -77,6 +73,64 @@ body {
   border: 1px solid #d4a017;
   outline: none;
   background: #fff2c9; 
+  box-shadow: 0 0 5px rgba(212, 160, 23, 0.5);
+}
+
+/* Estilos para la validación de contraseña */
+.password-container {
+  position: relative;
+}
+
+.password-requirements {
+  display: none;
+  list-style-type: none;
+  padding: 10px;
+  margin-top: 5px;
+  background: #fff8dc;
+  border-radius: 8px;
+  border: 1px solid #e1b12c;
+  font-size: 12px;
+  color: #555;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.password-requirements li {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.password-requirements li:before {
+  content: "•";
+  color: #e1b12c;
+  margin-right: 5px;
+}
+
+.password-requirements li.valid {
+  color: #4CAF50;
+}
+
+.password-requirements li.valid:before {
+  content: "✓";
+  color: #4CAF50;
+}
+
+/* Indicador de coincidencia de contraseña */
+.password-match {
+  margin-top: 5px;
+  font-size: 12px;
+  display: none;
+}
+
+.password-match.valid {
+  color: #4CAF50;
+  display: block;
+}
+
+.password-match.invalid {
+  color: #f44336;
+  display: block;
 }
 
 /* Mensajes de error */
@@ -95,7 +149,6 @@ body {
   display: block;
   margin-bottom: 10px;
 }
-
 
 .terms {
   display: flex;
@@ -121,7 +174,6 @@ body {
   text-decoration: underline;
 }
 
-
 .botons {
   width: 100%;
   background: #f4c542;
@@ -140,7 +192,6 @@ body {
   transform: scale(1.05);
 }
 
-
 .login-link {
   margin-top: 20px;
 }
@@ -155,15 +206,24 @@ body {
   text-decoration: underline;
 }
 
-.password-requirements {
-  list-style-type: none;
+/* Icono de ojo para mostrar/ocultar contraseña - Versión simplificada */
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #8b6f21;
+  font-size: 18px;
+  background: none;
+  border: none;
   padding: 0;
-  font-size: 12px;
-  color: #555;
 }
 
-.password-requirements li {
-  margin: 5px 0;
+.toggle-password:hover {
+  color: #d4a017;
 }
 
-
+.password-field {
+  position: relative;
+}

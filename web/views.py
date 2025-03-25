@@ -13,12 +13,23 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.http import JsonResponse
+from .models import PerfilUsuario
+from .forms import PerfilUsuarioForm
 
-def verificar_login(request):
-    if request.user.is_authenticated:
-        return JsonResponse({"loggedIn": True})
+
+@login_required
+def editar_perfil(request):
+    perfil, creado = PerfilUsuario.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        form = PerfilUsuarioForm(request.POST, request.FILES, instance=perfil)
+        if form.is_valid():
+            form.save()
+            return redirect("perfil")
     else:
-        return JsonResponse({"loggedIn": False})
+        form = PerfilUsuarioForm(instance=perfil)
+
+    return render(request, "perfil.html", {"form": form, "user": request.user})
 
 # Vista para registrar usuario
 # def register_view(request):
@@ -44,40 +55,24 @@ def register_view(request):
         form = RegistroForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registro exitoso')
-            return redirect('login')  
+            messages.success(request, '¡Registro exitoso! Ya puedes iniciar sesión')
+            return redirect('login')
         else:
-            # Aquí solo manejamos los mensajes genéricos para mostrar en el template
-            for field, errors in form.errors.items():
-                for error in errors:
-                    # Si el error es de la contraseña, mostramos un mensaje genérico
-                    if field == 'password1':
-                        messages.error(request, "Error al digitar la contraseña. Revisa los requisitos y vuelve a intentarlo.")
-                    else:
-                        messages.error(request, f"{field}: {error}")
+            # Mostrar errores sin nombres de campo
+            for field, error_list in form.errors.items():
+                for error in error_list:
+                    messages.error(request, error)
     else:
         form = RegistroForm()
-
+    
     return render(request, 'registro.html', {'form': form})
 
-def register_view(request):
-     if request.method == 'POST':
-         form = RegistroForm(request.POST)
-         if form.is_valid():
-             form.save()
-             messages.success(request, 'Registro exitoso')
-             return redirect('login')  
-         else:
-             messages.error(request, 'Error en el registro')
-             for field, errors in form.errors.items():
-                 for error in errors:
-                     messages.error(request, f"{field}: {error}")
-     else:
-         form = RegistroForm()  
-     return render(request, 'registro.html', {'form': form})
 
 
-
+def verificar_autenticacion(request):
+    return JsonResponse({
+        'autenticado': request.user.is_authenticated
+    })
 
 
 # Vista para iniciar sesión
