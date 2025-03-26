@@ -82,28 +82,47 @@ document.addEventListener('DOMContentLoaded', function() {
 // FEATURE
 document.addEventListener('DOMContentLoaded', function() {
     const features = document.querySelectorAll('.card-feature');
-    const animationDelay = 200; // 200ms entre cada animación
+    const container = document.querySelector('.container-features');
     
-    // Crear observer para animar al hacer scroll
+    // Ajustar delay según el dispositivo
+    function getAnimationDelay() {
+        return window.innerWidth <= 768 ? 100 : 200;
+    }
+    
+    // Observer con configuración responsive
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                // Animación secuencial con retraso progresivo
+                const delay = index * getAnimationDelay();
+                
                 setTimeout(() => {
                     entry.target.classList.add('visible');
-                }, index * animationDelay);
-                
-                // Dejar de observar después de animar para mejor rendimiento
-                observer.unobserve(entry.target);
+                    
+                    // Solo unobserve en desktop para evitar problemas en móviles
+                    if (window.innerWidth > 768) {
+                        observer.unobserve(entry.target);
+                    }
+                }, delay);
             }
         });
     }, {
-        threshold: 0.1 // Se dispara cuando el 10% del elemento es visible
+        threshold: window.innerWidth <= 768 ? 0.05 : 0.1,
+        rootMargin: '0px 0px -50px 0px'
     });
     
     // Observar cada card
     features.forEach(card => {
         observer.observe(card);
+    });
+    
+    // Reconfigurar al cambiar tamaño de pantalla
+    window.addEventListener('resize', function() {
+        features.forEach(card => {
+            if (!card.classList.contains('visible')) {
+                observer.unobserve(card);
+                observer.observe(card);
+            }
+        });
     });
 });
 
