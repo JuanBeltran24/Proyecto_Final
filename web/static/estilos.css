@@ -1504,6 +1504,52 @@ body.menu-open .main-navigation {
     animation: fadeInDown 0.8s forwards;
 }
 
+/* Animación de entrada desorganizada para features */
+@keyframes featureSlideIn {
+    0% {
+        opacity: 0;
+        transform: 
+            translateX(calc(var(--feature-random-x) * 1px))
+            translateY(calc(var(--feature-random-y) * 1px))
+            rotate(calc(var(--feature-random-rotate) * 1deg));
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) translateY(0) rotate(0);
+    }
+}
+
+.card-feature {
+    opacity: 0; /* Inicialmente ocultos */
+    transform-origin: center;
+    animation-fill-mode: forwards;
+}
+
+/* Clase que se agregará con JavaScript */
+.feature-slide-in {
+    animation: featureSlideIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Responsive para la animación */
+@media (max-width: 768px) {
+    .container-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @keyframes featureSlideIn {
+        0% {
+            opacity: 0;
+            transform: 
+                translateY(calc(var(--feature-random-y-mobile) * 1px))
+                rotate(calc(var(--feature-random-rotate) * 1deg));
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+    }
+}
+
 /* ********************************** */
 /*             CATEGORIES             */
 /* ********************************** */

@@ -107,24 +107,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // FEATURE
-document.addEventListener("DOMContentLoaded", function () {
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver(entries => {
+document.addEventListener('DOMContentLoaded', function() {
+    const featuresSection = document.querySelector('.container-features');
+    const featureCards = document.querySelectorAll('.card-feature');
+    
+    // Configurar valores aleatorios para cada feature card
+    featureCards.forEach((card, index) => {
+        // Valores aleatorios para desktop
+        const randomX = Math.floor(Math.random() * 300) - 150; // -150 a 150
+        const randomY = Math.floor(Math.random() * 200) - 100; // -100 a 100
+        const randomRotate = Math.floor(Math.random() * 20) - 10; // -10 a 10 grados
+        
+        // Valores aleatorios para mobile (solo en Y)
+        const randomYMobile = Math.floor(Math.random() * 200) + 100; // 100 a 300
+        
+        // Asignar variables CSS personalizadas
+        card.style.setProperty('--feature-random-x', randomX);
+        card.style.setProperty('--feature-random-y', randomY);
+        card.style.setProperty('--feature-random-rotate', randomRotate);
+        card.style.setProperty('--feature-random-y-mobile', randomYMobile);
+        
+        // Retraso escalonado basado en el índice (0.1s entre cada card)
+        const delay = index * 0.1;
+        card.style.animationDelay = delay + 's';
+    });
+    
+    // Observador de intersección para features
+    const featureObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add("visible-down");
-                observer.unobserve(entry.target); // Deja de observar el elemento después de la animación
+                featureCards.forEach(card => {
+                    card.classList.add('feature-slide-in');
+                });
+                featureObserver.unobserve(entry.target);
             }
         });
-    }, observerOptions);
-
-    const elementsToAnimate = document.querySelectorAll(".elemento-animado");
-    elementsToAnimate.forEach(element => {
-        observer.observe(element);
+    }, {
+        threshold: 0.2 // Se activa cuando el 20% del elemento es visible
     });
+    
+    // Observar la sección de features
+    if (featuresSection) {
+        featureObserver.observe(featuresSection);
+    }
 });
 
 
