@@ -51,80 +51,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Animacions Categorias 
 document.addEventListener('DOMContentLoaded', function() {
-    const categoriesSection = document.getElementById('Servicio');
     const categoryItems = document.querySelectorAll('.category-item');
     
-    function checkScroll() {
-        const sectionPosition = categoriesSection.getBoundingClientRect().top;
-        const screenHeight = window.innerHeight;
-        
-        if (sectionPosition < screenHeight * 0.75) {
-            categoriesSection.classList.add('visible');
-            
-            // Añadir aparición individual de elementos
-            categoryItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.classList.add('appear');
-                }, (index + 1) * 150); // Aumentado el retraso para un efecto más dramático
-            });
-        }
-    }
-    
-    // Añadir event listener de scroll
-    window.addEventListener('scroll', checkScroll);
-    
-    // Llamar una vez al cargar la página para manejar casos en que la sección ya está visible
-    checkScroll();
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+
+    categoryItems.forEach(item => {
+        observer.observe(item);
+    });
 });
 
 
 
 // FEATURE
-document.addEventListener('DOMContentLoaded', function() {
-    const features = document.querySelectorAll('.card-feature');
-    const container = document.querySelector('.container-features');
-    
-    // Ajustar delay según el dispositivo
-    function getAnimationDelay() {
-        return window.innerWidth <= 768 ? 100 : 200;
-    }
-    
-    // Observer con configuración responsive
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
+document.addEventListener("DOMContentLoaded", function () {
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const delay = index * getAnimationDelay();
-                
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                    
-                    // Solo unobserve en desktop para evitar problemas en móviles
-                    if (window.innerWidth > 768) {
-                        observer.unobserve(entry.target);
-                    }
-                }, delay);
+                entry.target.classList.add("visible-down");
+                observer.unobserve(entry.target); // Deja de observar el elemento después de la animación
             }
         });
-    }, {
-        threshold: window.innerWidth <= 768 ? 0.05 : 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    // Observar cada card
-    features.forEach(card => {
-        observer.observe(card);
-    });
-    
-    // Reconfigurar al cambiar tamaño de pantalla
-    window.addEventListener('resize', function() {
-        features.forEach(card => {
-            if (!card.classList.contains('visible')) {
-                observer.unobserve(card);
-                observer.observe(card);
-            }
-        });
+    }, observerOptions);
+
+    const elementsToAnimate = document.querySelectorAll(".elemento-animado");
+    elementsToAnimate.forEach(element => {
+        observer.observe(element);
     });
 });
+
 
 // QUIENES SOMOS
 
@@ -146,36 +112,40 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// MAPA Y VIDEO
-document.addEventListener('DOMContentLoaded', function() {
-    function animateOnScroll() {
-        const sections = document.querySelectorAll('.advanced-map, .advanced-video');
-        
-        const checkVisibility = function() {
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                const isVisible = (rect.top <= window.innerHeight * 0.75);
-                
-                if (isVisible) {
-                    section.classList.add('animated');
-                    // Para Google Maps iframe, necesita un pequeño retraso
-                    if (section.classList.contains('advanced-map')) {
-                        setTimeout(() => {
-                            const iframe = section.querySelector('iframe');
-                            if (iframe) iframe.style.opacity = 1;
-                        }, 400);
-                    }
-                }
-            });
-        };
-        
-        // Verificar al cargar y al hacer scroll
-        window.addEventListener('scroll', checkVisibility);
-        checkVisibility();
-    }
-    
-    animateOnScroll();
+// MAPA 
+document.addEventListener("DOMContentLoaded", function() {
+    const observerOptions = { threshold: 0.2 };
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const elements = document.querySelectorAll(".map-container, .video-container");
+    elements.forEach(el => observer.observe(el));
 });
+
+
+// VIDEO
+document.addEventListener("DOMContentLoaded", function () {
+    const videoContainer = document.querySelector(".video-container");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(videoContainer);
+});
+
 
 
 
