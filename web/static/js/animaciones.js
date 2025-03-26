@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const categoryItems = document.querySelectorAll('.category-item');
     const productItems = document.querySelectorAll('.item');
     
+    // Animación inicial para categorías
+    categoryItems.forEach((item, index) => {
+        item.style.opacity = 0;
+        setTimeout(() => {
+            item.classList.add('slide-in');
+        }, index * 100);
+    });
+    
     // Navegación con botones
     prevBtn.addEventListener('click', function() {
         categoriesSlider.scrollBy({
@@ -34,22 +42,27 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtener la categoría seleccionada
             const selectedCategory = this.getAttribute('data-category');
             
-            // Mostrar u ocultar productos según la categoría seleccionada
+            // Aplicar animación a los productos
             productItems.forEach(product => {
-                const productCategory = product.getAttribute('data-categoria');
+                product.style.opacity = 0;
+                product.style.transform = 'translateY(20px)';
                 
-                if (selectedCategory === 'todos' || productCategory === selectedCategory) {
-                    product.style.display = 'block';
-                } else {
-                    product.style.display = 'none';
-                }
+                setTimeout(() => {
+                    const productCategory = product.getAttribute('data-categoria');
+                    
+                    if (selectedCategory === 'todos' || productCategory === selectedCategory) {
+                        product.style.display = 'block';
+                        product.style.opacity = 1;
+                        product.style.transform = 'translateY(0)';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                }, 300);
             });
         });
     });
 });
 
-
-// Animacions Categorias 
 document.addEventListener('DOMContentLoaded', function() {
     const categoryItems = document.querySelectorAll('.category-item');
     
@@ -67,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(item);
     });
 });
+
 
 
 
