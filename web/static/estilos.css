@@ -1599,19 +1599,18 @@ body.menu-open .main-navigation {
 
 .categories-slider {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-x: auto;
+    justify-content: center; /* Centra las categorías */
+    align-items: center; /* Alinea verticalmente (si es necesario) */
+    overflow-x: auto; /* Habilita el desplazamiento horizontal si hay muchas categorías */
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    padding: 1rem 0;
+    -webkit-overflow-scrolling: touch; /* Mejora la experiencia en dispositivos táctiles */
+    padding: 1rem 0
 }
 
 .categories-slider::-webkit-scrollbar {
-    display: none;
+    display: none; /* Chrome, Safari, Edge */
 }
 
-/* Animación de entrada horizontal */
 .category-item {
     min-width: 150px;
     margin-right: 15px;
@@ -1627,34 +1626,7 @@ body.menu-open .main-navigation {
     padding: 1.5rem;
     border: 2px solid transparent;
     flex-shrink: 0;
-    opacity: 0;
-    transform: translateX(50px);
 }
-
-.category-item.animated {
-    animation: slideInFromRight 0.6s forwards;
-}
-
-@keyframes slideInFromRight {
-    from {
-        opacity: 0;
-        transform: translateX(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Retrasos para cada elemento */
-.category-item:nth-child(1) { animation-delay: 0.1s; }
-.category-item:nth-child(2) { animation-delay: 0.2s; }
-.category-item:nth-child(3) { animation-delay: 0.3s; }
-.category-item:nth-child(4) { animation-delay: 0.4s; }
-.category-item:nth-child(5) { animation-delay: 0.5s; }
-.category-item:nth-child(6) { animation-delay: 0.6s; }
-.category-item:nth-child(7) { animation-delay: 0.7s; }
-.category-item:nth-child(8) { animation-delay: 0.8s; }
 
 .category-item:hover {
     transform: translateY(-5px);
@@ -1717,6 +1689,25 @@ body.menu-open .main-navigation {
     transform: scale(1.1);
 }
 
+/* Animaciones para categorías */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+.slide-in {
+    animation: slideIn 0.5s forwards;
+}
+
 /* Estilos responsivos */
 @media (max-width: 768px) {
     .category-item {
@@ -1738,7 +1729,7 @@ body.menu-open .main-navigation {
     }
 
     .slider-controls {
-        display: none;
+        display: none; /* Oculta las flechas en pantallas grandes */
     }
 }
 
@@ -1752,13 +1743,37 @@ body.menu-open .main-navigation {
     }
 
     .slider-controls {
-        display: flex;
+        display: flex; /* Muestra las flechas en pantallas pequeñas */
     }
 
     .categories-slider {
-        justify-content: flex-start;
+        justify-content: flex-start; /* En pantallas pequeñas, empieza desde la izquierda */
     }
 }
+
+/* Animación de entrada desorganizada */
+@keyframes slideInRandom {
+    0% {
+        opacity: 0;
+        transform: translateX(calc(var(--random-x) * 1px)) translateY(calc(var(--random-y) * 1px));
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+}
+
+.category-item {
+    opacity: 0; /* Inicialmente ocultos */
+    animation-fill-mode: forwards;
+}
+
+/* Clase que se agregará con JavaScript */
+.slide-in-random {
+    animation: slideInRandom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+
 
 
 /* ********************************** */

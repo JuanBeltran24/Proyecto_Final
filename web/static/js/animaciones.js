@@ -63,24 +63,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Animaciones Categorias
 document.addEventListener('DOMContentLoaded', function() {
+    const categoriesSection = document.querySelector('.top-categories');
     const categoryItems = document.querySelectorAll('.category-item');
     
+    // Configurar valores aleatorios para cada elemento
+    categoryItems.forEach(item => {
+        // Valores aleatorios entre -200 y 200 para X, y entre -50 y 50 para Y
+        const randomX = Math.floor(Math.random() * 400) - 200;
+        const randomY = Math.floor(Math.random() * 100) - 50;
+        
+        // Asignar variables CSS personalizadas
+        item.style.setProperty('--random-x', randomX);
+        item.style.setProperty('--random-y', randomY);
+        
+        // Retraso aleatorio entre 0 y 0.5s
+        const randomDelay = Math.random() * 0.5;
+        item.style.animationDelay = randomDelay + 's';
+    });
+    
+    // Observador de intersección para activar la animación al hacer scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
+                categoryItems.forEach(item => {
+                    item.classList.add('slide-in-random');
+                });
+                // Opcional: dejar de observar después de la primera vez
+                observer.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.1
+        threshold: 0.3 // Se activa cuando el 30% del elemento es visible
     });
-
-    categoryItems.forEach(item => {
-        observer.observe(item);
-    });
+    
+    // Observar la sección de categorías
+    if (categoriesSection) {
+        observer.observe(categoriesSection);
+    }
 });
-
 
 
 
