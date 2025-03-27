@@ -536,7 +536,7 @@ ul {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     animation: fadeIn 1s ease-in-out;
-    margin-top: 15rem;
+    margin-top: 15.5rem;
 }
 
 @keyframes fadeIn {
