@@ -90,45 +90,40 @@
                         <!-- Icono de usuario -->
                         <div class="user-account">
                             {% if user.is_authenticated %}
-                                <div class="user-account-trigger" id="user-toggle">
-                                    <div class="user-avatar">
-                                        <i class="fa-solid fa-user-circle"></i>
-                                    </div>
-                                    <div class="user-info">
-                                        <span class="username">{{ user.username }}</span>
-                                        <i class="fa-solid fa-chevron-down"></i>
+                            <div class="user-account-trigger" id="user-toggle">
+                                <div class="welcome-combined">
+                                    <span class="welcome-text">¡Bienvenid@,</span>
+                                    <span class="username">{{ user.username }}</span>
+                                </div>
+                            </div>
+
+                            <div class="user-menu">
+                                <div class="user-menu-header">
+                                    <div class="user-details">
+                                        <span class="user-greeting">Hola,</span>
+                                        <span class="user-name">{{ user.username }}</span>
                                     </div>
                                 </div>
-                                <div class="user-menu">
-                                    <div class="user-menu-header">
-                                        <div class="user-avatar large">
-                                            <i class="fa-solid fa-user-circle"></i>
-                                        </div>
-                                        <div class="user-details">
-                                            <span class="user-greeting">Hola,</span>
-                                            <span class="user-name">{{ user.username }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="user-menu-items">
-                                        <a href="{% url 'perfil' %}" class="user-menu-link">
-                                            <i class="fa-solid fa-book-open"></i>
-                                            <span>Mi Perfil</span>
-                                        </a>
-                                        <a href="{% url 'manual_usuario' %}" class="user-menu-link">
-                                            <i class="fa-solid fa-book-open"></i>
-                                            <span>Manual de usuario</span>
-                                        </a>
-                                        <a href="{% url 'historial_compras' %}" class="user-menu-link">
-                                            <i class="fa-solid fa-book-open"></i>
-                                            <span>Historial de compras</span>
-                                        </a>
-                                        <a href="{% url 'logout' %}" class="user-menu-link logout">
-                                            <i class="fa-solid fa-right-from-bracket"></i>
-                                            <span>Cerrar sesión</span>
-                                        </a>
-                                        
-                                    </div>
+                                <div class="user-menu-items">
+                                    <a href="{% url 'perfil' %}" class="user-menu-link">
+                                        <i class="fa-solid fa-user"></i>
+                                        <span>Mi Perfil</span>
+                                    </a>
+                                    <a href="{% url 'manual_usuario' %}" class="user-menu-link">
+                                        <i class="fa-solid fa-book-open"></i>
+                                        <span>Manual de usuario</span>
+                                    </a>
+                                    <a href="{% url 'historial_compras' %}" class="user-menu-link">
+                                        <i class="fa-solid fa-receipt"></i>
+                                        <span>Historial de compras</span>
+                                    </a>
+                                    <a href="{% url 'logout' %}" class="user-menu-link logout">
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        <span>Cerrar sesión</span>
+                                    </a>
                                 </div>
+                            </div>
+                               
                             {% else %}
                                 <a href="{% url 'login' %}" class="login-button">
                                     <i class="fa-solid fa-user"></i>
@@ -175,8 +170,7 @@
                     <p class="title-footer">Información</p>
                     <ul>
                         <li><a href="#Quienes">Acerca de Nosotros</a></li>
-                        <li><a href="#">Políticas de Privacidad</a></li>
-                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="{% url 'manual_usuario'%}">Usabilidad del sitio</a></li>
                     </ul>
                 </div>
 

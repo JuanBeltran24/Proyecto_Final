@@ -412,18 +412,90 @@ ul {
     position: relative;
 }
 
-.user-account-trigger {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: var(--radius-pill);
-    transition: var(--transition-fast);
-}
+
 
 .user-account-trigger:hover {
     background-color: rgba(0, 0, 0, 0.05);
+}
+
+.welcome-combined {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #6d4c41 0%, #5d4037 100%); /* Café oscuro */
+    border-radius: 50px;
+    overflow: hidden;
+    font-size: 1rem;
+    gap: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    color: #fff3e0; /* Crema claro */
+    border: 1px solid rgba(255, 171, 64, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+}
+
+.welcome-combined:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación naranja brillante */
+.welcome-combined::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 145, 0, 0.7), /* Naranja vibrante */
+                transparent);
+    animation: shine 6s infinite;
+    mix-blend-mode: overlay; /* Mezcla con el fondo */
+}
+
+@keyframes shine {
+    0% { left: -100%; opacity: 0.9; }
+    20% { left: 100%; opacity: 0.7; }
+    100% { left: 100%; opacity: 0; }
+}
+
+.welcome-text {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: #ffcc80; /* Naranja claro */
+}
+
+.username {
+    font-weight: 700;
+    color: #ffa726; /* Naranja medio */
+    position: relative;
+    text-shadow: 0 1px 2px rgba(94, 53, 0, 0.4);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Efecto subrayado naranja */
+.username::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #ff9800, #ff6d00);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.welcome-combined:hover .username::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .user-avatar {
@@ -451,14 +523,7 @@ ul {
     gap: 5px;
 }
 
-.username {
-    font-weight: 500;
-    font-size: 0.9rem;
-    max-width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+
 
 /* CSS para el Manual de Usuario */
 
@@ -645,19 +710,70 @@ ul {
     border-bottom: 1px solid var(--light-gray);
 }
 
+.user-menu {
+    width: 240px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Encabezado */
+.user-menu-header {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #6d4c41, #5d4037);
+    color: white;
+}
+
 .user-details {
     display: flex;
-    flex-direction: column;
+    gap: 5px;
 }
 
 .user-greeting {
-    font-size: 0.8rem;
-    color: var(--medium-gray);
+    font-weight: 400;
 }
 
 .user-name {
     font-weight: 600;
-    color: var(--dark);
+}
+
+/* Ítems del menú */
+.user-menu-items {
+    padding: 8px 0;
+}
+
+.user-menu-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s;
+    gap: 12px;
+}
+
+.user-menu-link:hover {
+    background: #f5f5f5;
+}
+
+.user-menu-link i {
+    width: 20px;
+    color: #6d4c41;
+    text-align: center;
+}
+
+/* Ícono de cerrar sesión */
+.user-menu-link.logout {
+    border-top: 1px solid #f0f0f0;
+    margin-top: 5px;
+    padding-top: 15px;
+    color: #d32f2f;
+}
+
+.user-menu-link.logout i {
+    color: #d32f2f;
 }
 
 .user-menu-items {

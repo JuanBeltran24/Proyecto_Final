@@ -76,3 +76,62 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
     });
 });
+
+// perfil.js (o dentro de tu template perfil.html)
+document.addEventListener('DOMContentLoaded', function() {
+    const avatarForm = document.getElementById('avatar-form'); // Asegúrate de que tu form tenga este ID
+    
+    if (avatarForm) {
+        avatarForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            // Headers para identificar la petición como AJAX
+            const headers = new Headers({
+                'X-Requested-With': 'XMLHttpRequest',
+            });
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: headers,
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Error en la respuesta');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Actualiza el avatar en el header
+                    updateHeaderAvatar(data.avatar_url);
+                    
+                    // Opcional: Muestra un mensaje de éxito
+                    alert('¡Avatar actualizado!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al subir la imagen');
+            });
+        });
+    }
+});
+
+// Función para actualizar el avatar en el header (debe estar en ambos JS: header.js y perfil.js)
+function updateHeaderAvatar(newUrl) {
+    const headerAvatar = document.getElementById('header-avatar-img');
+    if (headerAvatar) {
+        headerAvatar.src = newUrl + '?t=' + new Date().getTime(); // Evita caché
+    } else {
+        // Si no existe (por el fallback), crea la imagen dinámicamente
+        const userAvatarDiv = document.querySelector('.user-avatar');
+        if (userAvatarDiv) {
+            userAvatarDiv.innerHTML = `
+                <img src="${newUrl}?t=${new Date().getTime()}" 
+                     alt="Avatar" 
+                     class="header-avatar" 
+                     id="header-avatar-img">
+            `;
+        }
+    }
+}

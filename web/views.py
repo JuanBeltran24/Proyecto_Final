@@ -133,7 +133,6 @@ from django.shortcuts import render
 from .models import MensajeContacto
 from django.contrib.auth.decorators import login_required
 
-@login_required(login_url='login')  # Redirige al login si el usuario no está autenticado
 def contactanos(request):
     if request.method == "POST":
         # Obtener los datos del formulario
