@@ -157,7 +157,7 @@ ul {
 }
 
 .scrolled .site-logo .logo-text {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
 }
 
 .scrolled .nav-link {
@@ -1349,6 +1349,11 @@ ul {
     
     .menu-bar:nth-child(3) {
         top: 24px;
+    }
+
+    .logo-text{
+    
+        font-size: 1.5rem;
     }
     
     .nav-link {
