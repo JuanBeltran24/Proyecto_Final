@@ -56,10 +56,10 @@
                 
                 <div class="form-group">
                     <label class="form-label">Dirección</label>
-                    <input type="text" class="form-control" name="direccion" value="{{ form.direccion.value }}" placeholder="Ingresa tu dirección">
+                    <input type="text" class="form-control" name="direccion" value="{{ form.direccion.value }}"  placeholder="Digite su dirección">
                 </div>
 
-                <div class="location-grid">
+                 <div class="location-grid">
                     <div class="form-group">
                         <label class="form-label">Departamento</label>
                         <input type="text" class="form-control" name="departamento" value="{{ form.departamento.value }}" placeholder="Departamento">
@@ -161,4 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<script src="{% static 'js/datos.js' %}"></script>
+
 {% endblock %}

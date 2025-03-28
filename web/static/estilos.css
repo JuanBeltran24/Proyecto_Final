@@ -241,6 +241,7 @@ ul {
     background-clip: text;
     color: transparent;
     transition: var(--transition);
+    margin-top: 10px;
 }
 
 /* ======= Navegación Principal ======= */
@@ -248,6 +249,7 @@ ul {
     flex: 1;
     display: flex;
     justify-content: center;
+    margin-top: 15px;
 }
 
 .nav-menu {

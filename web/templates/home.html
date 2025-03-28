@@ -155,17 +155,17 @@
                 <h2>Información de Pago</h2>
                 <form id="pago-form">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ request.user.username}}" required>
                     <label for="apellido">Apellido:</label>
                     <input type="text" id="apellido" name="apellido" required>
                     <label for="celular">Celular:</label>
                     <input type="tel" id="celular" name="celular" required>
                     <label for="municipio">Municipio:</label>
-                    <input type="text" id="municipio" name="municipio" required>
+                    <input type="text" id="municipio" name="municipio" value="{{ user.perfilusuario.municipio|default:'' }}" required>
                     <label for="residencia">Dirección:</label>
-                    <input type="text" id="residencia" name="residencia" required>
+                    <input type="text" id="residencia" name="residencia" value="{{ user.perfilusuario.direccion|default:'' }}" required>
                     <label for="email">Correo Electrónico:</label>
-                    <input type="text" id="email" name="email" required>
+                    <input type="text" id="email" name="email" value="{{ request.user.email }}" required>
                 </form>
             </div>
 
@@ -299,6 +299,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{% static 'js/app.js' %}"></script>
 <script src="{% static 'js/animaciones.js' %}"></script>
+<script src="{% static 'js/datos.js' %}"></script>
+
+
 
 
 {% endblock %}

@@ -38,7 +38,7 @@
         
         <div class="form-group">
           <label for="name">Nombre Completo:</label>
-          <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+          <input type="text" id="name" name="name" value="{{ request.user.username}}" placeholder="Tu nombre completo" required>
           {% if form.name.errors %}
             <div class="error-messages">
               {% for error in form.name.errors %}
@@ -50,7 +50,7 @@
 
         <div class="form-group">
           <label for="email">Correo Electrónico:</label>
-          <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+          <input type="email" id="email" name="email" value="{{ request.user.email }}" placeholder="correo@ejemplo.com" required>
           {% if form.email.errors %}
             <div class="error-messages">
               {% for error in form.email.errors %}
