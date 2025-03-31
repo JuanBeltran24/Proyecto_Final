@@ -2213,6 +2213,83 @@ body.menu-open .main-navigation {
     background-color: #ff9d00;
 }
 
+/* Estilos generales responsivos */
+@media (max-width: 768px) {
+    .container-options {
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+
+    .container-options span {
+        padding: 0.5rem 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .contenedor {
+        padding: 5px;
+        flex-direction: column;
+    }
+
+    .contenedor .contenedor-items {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móvil */
+        grid-gap: 15px;
+        margin-top: 15px;
+    }
+
+    .contenedor .contenedor-items .item {
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .contenedor .contenedor-items .item .titulo-item,
+    .contenedor .contenedor-items .item .precio-item {
+        font-size: 18px;
+    }
+
+    /* Ajustes para las categorías */
+    .categorias {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .categorias .categoria {
+        width: 90%;
+        padding: 15px;
+    }
+
+    /* Ajustes para opciones de pago */
+    .opciones-pago {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .opciones-pago button {
+        width: 100%;
+        min-width: auto;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .contenedor .contenedor-items {
+        grid-template-columns: repeat(2, 1fr); /* Mantenemos 2 columnas */
+        grid-gap: 10px;
+    }
+
+    .contenedor .contenedor-items .item {
+        padding: 10px;
+    }
+
+    .container-options span {
+        padding: 0.4rem 1rem;
+        font-size: 1rem;
+    }
+}
+
 
 
 /* ********************************** */

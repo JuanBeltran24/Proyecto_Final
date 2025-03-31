@@ -715,234 +715,155 @@ body::before {
 </style>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="encabezado">    
-        <h1 class="futuristic-title" data-text="Historial de Compras">Historial de Compras</h1>
-        
-        <div class="nav-buttons">
-            <a href="{% url 'home' %}" class="futuristic-home">
-                <i class="fa fa-home"></i>
-                <span>Inicio</span>
-            </a>
-        
-            <a href="{% url 'home' %}#Galeria" class="futuristic-comprar">
-                <i class="fa fa-shopping-cart"></i>
-                <span>Comprar</span>
-            </a>
-        </div>
-    </div>
-    
-    
-    
-    <div class="filter-container animate-in" style="animation-delay: 0.1s">
-        <h3 class="filter-title">Filtros de Búsqueda</h3>
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0"><i class="fas fa-search"></i></span>
-                    <input type="text" id="search" class="futuristic-input" placeholder="Buscar producto...">
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0"><i class="fas fa-credit-card"></i></span>
-                    <select id="filterMethod" class="futuristic-input">
-                        <option value="all">Filtrar por método de pago</option>
-                        <option value="Nequi">Nequi</option>
-                        <option value="Daviplata">Daviplata</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0"><i class="fas fa-calendar-alt"></i></span>
-                    <input type="date" id="filterDate" class="futuristic-input">
-                </div>
+    <div class="container mt-5">
+        <div class="encabezado">    
+            <h1 class="futuristic-title" data-text="Historial de Compras">Historial de Compras</h1>
+            
+            <div class="nav-buttons">
+                <a href="{% url 'home' %}" class="futuristic-home">
+                    <i class="fa fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+            
+                <a href="{% url 'home' %}#Galeria" class="futuristic-comprar">
+                    <i class="fa fa-shopping-cart"></i>
+                    <span>Comprar</span>
+                </a>
             </div>
         </div>
-    </div>
     
-    <div id="resultsCounter" class="results-counter animate-in" style="animation-delay: 0.2s">
-        <i class="fas fa-tag"></i> Mostrando <span id="countResults">0</span> resultados
-    </div>
-    
-    <div class="row" id="historyContainer">
-        {% for compra in historial %}
-        <div class="col-md-6 purchase-card animate-in" style="animation-delay: 0.3s" data-payment="{{ compra.metodo_pago }}" data-date="{{ compra.fecha|date:'Y-m-d' }}">
-            <div class="futuristic-card">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-shopping-bag"></i> Productos Comprados</h5>
-                    <div class="products-container">
-                        <ul class="product-list">
-                            {% for producto in compra.productos_lista %}
-                            <li>{{ producto }}</li>
-                            {% endfor %}
-                        </ul>
+        <div class="filter-container animate-in" style="animation-delay: 0.1s">
+            <h3 class="filter-title">Filtros de Búsqueda</h3>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-search"></i></span>
+                        <input type="text" id="search" class="futuristic-input" placeholder="Buscar producto...">
                     </div>
-                    <p class="card-text">
-                        <strong><i class="far fa-calendar-alt"></i> Fecha:</strong>
-                        <span>{{ compra.fecha|date:"d M Y, H:i" }}</span>
-                    </p>
-                    <p class="card-text">
-                        <strong><i class="fas fa-coins"></i> Total:</strong>
-                        <span class="badge">${{ compra.total }}</span>
-                    </p>
-                    <p class="card-text">
-                        <strong><i class="fas fa-money-bill-wave"></i> Método de Pago:</strong>
-                        <span class="badge payment-method-{{ compra.metodo_pago|lower }}">{{ compra.metodo_pago }}</span>
-                    </p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-credit-card"></i></span>
+                        <select id="filterMethod" class="futuristic-input">
+                            <option value="all">Filtrar por método de pago</option>
+                            <option value="Nequi">Nequi</option>
+                            <option value="Daviplata">Daviplata</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-0"><i class="fas fa-calendar-alt"></i></span>
+                        <input type="date" id="filterDate" class="futuristic-input">
+                    </div>
                 </div>
             </div>
         </div>
-        {% empty %}
-        <div class="col-12 text-center mt-5 animate-in">
-            <div class="no-results">
-                <i class="fas fa-shopping-cart"></i>
-                <h4>No tienes compras registradas.</h4>
-                <p>Cuando realices una compra, aparecerá en este historial.</p>
-            </div>
+    
+        <div id="resultsCounter" class="results-counter animate-in" style="animation-delay: 0.2s">
+            <i class="fas fa-tag"></i> Mostrando <span id="countResults">0</span> resultados
         </div>
-        {% endfor %}
+    
+        <div class="row" id="historyContainer">
+            {% if historial %}
+                {% for compra in historial %}
+                <div class="col-md-6 purchase-card animate-in" style="animation-delay: 0.3s" 
+                     data-payment="{{ compra.metodo_pago }}" data-date="{{ compra.fecha|date:'Y-m-d' }}">
+                    <div class="futuristic-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-shopping-bag"></i> Productos Comprados</h5>
+                            <div class="products-container">
+                                <ul class="product-list">
+                                    {% for producto in compra.productos_lista %}
+                                        <li> {{ producto }}</li>
+                                    {% empty %}
+                                        <li>No hay productos registrados en esta compra.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <p class="card-text">
+                                <strong><i class="far fa-calendar-alt"></i> Fecha:</strong>
+                                <span>{{ compra.fecha|date:"d M Y, H:i" }}</span>
+                            </p>
+                            <p class="card-text">
+                                <strong><i class="fas fa-coins"></i> Total:</strong>
+                                <span class="badge">${{ compra.total|floatformat:2 }}</span>
+                            </p>
+                            <p class="card-text">
+                                <strong><i class="fas fa-money-bill-wave"></i> Método de Pago:</strong>
+                                <span class="badge payment-method-{{ compra.metodo_pago|lower }}">{{ compra.metodo_pago }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center mt-5 animate-in">
+                    <div class="no-results">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>No tienes compras registradas.</h4>
+                        <p>Cuando realices una compra, aparecerá en este historial.</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
     
-    <div class="no-results" id="noResultsMessage" style="display: none;">
-        <i class="fas fa-search"></i>
-        <h4>No se encontraron resultados</h4>
-        <p>Intenta con otros criterios de búsqueda</p>
-    </div>
-</div>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Elementos del DOM
-        const filterMethod = document.getElementById('filterMethod');
-        const filterDate = document.getElementById('filterDate');
-        const searchInput = document.getElementById('search');
-        const purchases = document.querySelectorAll('.purchase-card');
-        const noResultsMessage = document.getElementById('noResultsMessage');
-        const countResults = document.getElementById('countResults');
-        const resultsCounter = document.getElementById('resultsCounter');
+    // Elementos del DOM
+    const filterMethod = document.getElementById('filterMethod');
+    const filterDate = document.getElementById('filterDate');
+    const searchInput = document.getElementById('search');
+    const purchases = document.querySelectorAll('.purchase-card');
+    const countResults = document.getElementById('countResults');
+    
+    function applyFilters() {
+        let selectedMethod = filterMethod.value.toLowerCase();
+        let selectedDate = filterDate.value;
+        let searchQuery = searchInput.value.toLowerCase().trim();
         
-        // Aplicar animaciones iniciales
-        setTimeout(() => {
-            document.querySelectorAll('.animate-in').forEach((el, index) => {
-                el.style.opacity = '0';
-                setTimeout(() => {
-                    el.style.animation = 'fadeInUp 0.6s ease forwards';
-                }, index * 100);
-            });
-        }, 100);
+        let visibleCount = 0;
         
-        // Función para aplicar filtros
-        function applyFilters() {
-            let selectedMethod = filterMethod.value;
-            let selectedDate = filterDate.value;
-            let searchQuery = searchInput.value.toLowerCase().trim();
+        purchases.forEach(purchase => {
+            let paymentMethod = purchase.getAttribute('data-payment').toLowerCase();
+            let purchaseDate = purchase.getAttribute('data-date');
+            let productList = purchase.querySelector('.product-list').textContent.toLowerCase();
             
-            let visibleCount = 0;
+            // Verificaciones de filtrado
+            let methodMatch = (selectedMethod === "all" || paymentMethod === selectedMethod);
+            let dateMatch = (!selectedDate || purchaseDate === selectedDate);
+            let searchMatch = (searchQuery === "" || productList.includes(searchQuery));
             
-            purchases.forEach(purchase => {
-                let paymentMethod = purchase.getAttribute('data-payment');
-                let purchaseDate = purchase.getAttribute('data-date');
-                let productList = purchase.querySelector('.product-list').innerText.toLowerCase();
-                
-                let methodMatch = (selectedMethod === "all" || paymentMethod === selectedMethod);
-                let dateMatch = (!selectedDate || purchaseDate === selectedDate);
-                let searchMatch = (searchQuery === "" || productList.includes(searchQuery));
-                
-                if (methodMatch && dateMatch && searchMatch) {
-                    purchase.style.display = "block";
-                    visibleCount++;
-                } else {
-                    purchase.style.display = "none";
-                }
-            });
-            
-            // Actualizar contador de resultados
-            countResults.textContent = visibleCount;
-            
-            // Mostrar/ocultar mensaje de no resultados
-            if (visibleCount === 0 && purchases.length > 0) {
-                noResultsMessage.style.display = "block";
-                resultsCounter.style.display = "none";
+            // Mostrar u ocultar la tarjeta
+            if (methodMatch && dateMatch && searchMatch) {
+                purchase.style.display = "block";
+                visibleCount++;
             } else {
-                noResultsMessage.style.display = "none";
-                resultsCounter.style.display = "inline-block";
+                purchase.style.display = "none";
             }
+        });
+        
+        // Actualizar contador de resultados
+        countResults.textContent = visibleCount;
+        
+        // Opcional: Mostrar mensaje si no hay resultados
+        const noResultsMessage = document.querySelector('.no-results');
+        if (visibleCount === 0 && purchases.length > 0) {
+            if (noResultsMessage) noResultsMessage.style.display = "block";
+        } else {
+            if (noResultsMessage) noResultsMessage.style.display = "none";
         }
-        
-        // Configurar efectos de desplazamiento suave para los productos
-        const productLists = document.querySelectorAll('.product-list');
-        productLists.forEach(list => {
-            // Añadir efecto de desplazamiento con el ratón
-            list.addEventListener('wheel', function(e) {
-                if (e.deltaY !== 0) {
-                    e.preventDefault();
-                    this.scrollLeft += e.deltaY;
-                }
-            }, { passive: false });
-            
-            // Permitir arrastrar para desplazar en móviles
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            list.addEventListener('mousedown', (e) => {
-                isDown = true;
-                list.style.cursor = 'grabbing';
-                startX = e.pageX - list.offsetLeft;
-                scrollLeft = list.scrollLeft;
-            });
-
-            list.addEventListener('mouseleave', () => {
-                isDown = false;
-                list.style.cursor = 'grab';
-            });
-
-            list.addEventListener('mouseup', () => {
-                isDown = false;
-                list.style.cursor = 'grab';
-            });
-
-            list.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - list.offsetLeft;
-                const walk = (x - startX) * 2;
-                list.scrollLeft = scrollLeft - walk;
-            });
-        });
-        
-        // Aplicar filtros iniciales
-        applyFilters();
-        
-        // Agregar event listeners
-        filterMethod.addEventListener('change', applyFilters);
-        filterDate.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-        
-        // Aplicar efecto de destello a las tarjetas
-        const cards = document.querySelectorAll('.futuristic-card');
-        cards.forEach(card => {
-            card.addEventListener('mouseover', function() {
-                this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 123, 58, 0.3), 0 0 60px rgba(138, 90, 68, 0.2)';
-            });
-            
-            card.addEventListener('mouseout', function() {
-                this.style.boxShadow = '';
-            });
-        });
-        
-        // Colorear distintivamente los métodos de pago
-        const paymentBadges = document.querySelectorAll('.payment-method-nequi, .payment-method-daviplata');
-        paymentBadges.forEach(badge => {
-            if (badge.classList.contains('payment-method-nequi')) {
-                badge.style.background = 'linear-gradient(120deg, #8a5a44, #a06e54)';
-            } else if (badge.classList.contains('payment-method-daviplata')) {
-                badge.style.background = 'linear-gradient(120deg, #ff7b3a, #ff9b66)';
-            }
-        });
-    });
+    }
+    
+    // Agregar event listeners
+    filterMethod.addEventListener('change', applyFilters);
+    filterDate.addEventListener('change', applyFilters);
+    searchInput.addEventListener('input', applyFilters);
+    
+    // Ejecutar filtros inicialmente
+    applyFilters();
+});
 </script>
 </body>
 </html>
