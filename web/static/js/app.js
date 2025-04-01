@@ -542,7 +542,7 @@ function hacerVisibleCarrito() {
 function agregarItemAlCarrito(titulo, precio, imagenSrc) {
     let itemsCarrito = document.querySelector('.carrito-items');
     if ([...itemsCarrito.querySelectorAll('.carrito-item-titulo')].some(item => item.innerText === titulo)) {
-        alert("El item ya se encuentra en el carrito");
+        alert("El producto ya se encuentra en el carrito");
         return;
     }
 
